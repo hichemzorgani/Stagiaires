@@ -1,0 +1,8 @@
+#bg {
+    background-image: url('/img/bg.jpg');
+}
+#add_edit_div{
+        border: 2px solid black; 
+        border-radius: 10px; 
+        padding: 10px;
+}
