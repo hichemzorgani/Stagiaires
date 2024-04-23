@@ -20,7 +20,7 @@ class User
         if (Auth::check()) {
 
             $userType = Auth::user()->usertype;
-            if ($userType === 'admin' || $userType === 'subadmin' || $userType === 'superadmin' || $userType === 'user') {
+            if ($userType === 'Admin' || $userType === 'Subadmin' || $userType === 'Superadmin' || $userType === 'User') {
                 return $next($request);
             }
         }

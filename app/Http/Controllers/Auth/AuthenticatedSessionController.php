@@ -28,15 +28,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if ($request->user()->usertype === 'superadmin') {
+        if ($request->user()->usertype === 'Superadmin') {
             return to_route('superadmin');
-        } else if ($request->user()->usertype === 'subadmin') {
+        } else if ($request->user()->usertype === 'Subadmin') {
             return to_route('subadmin');
-        } else if ($request->user()->usertype === 'admin') {
+        } else if ($request->user()->usertype === 'Admin') {
             return to_route('admin');
-        } else if ($request->user()->usertype === 'user') {
+        } else if ($request->user()->usertype === 'User') {
             return to_route('user');
-        } else if ($request->user()->usertype === 'security') {
+        } else if ($request->user()->usertype === 'Security') {
             return to_route('security');
         }
 

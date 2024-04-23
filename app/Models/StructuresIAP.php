@@ -5,11 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ecole extends Model
+class StructuresIAP extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
     ];
+
+    public function structuresAffectations()
+    {
+        return $this->hasMany(StructuresAffectation::class);
+    }
 }

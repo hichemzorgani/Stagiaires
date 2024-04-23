@@ -17,7 +17,7 @@ class SuperAdmin
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (Auth::user()->usertype === 'superadmin') {
+        if (Auth::user()->usertype === 'Superadmin') {
             return $next($request);
         }
         return abort(403);

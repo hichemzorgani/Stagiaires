@@ -7,18 +7,20 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" aria-current="page" href="{{route('superadmin')}}">Statistiques</a>
-          <a class="nav-link" href="#">Comptes</a>
-          <a class="nav-link" href="{{route('ecoles.index')}}">Écoles</a>
-          <a class="nav-link" aria-current="page" href="#">Départements</a>
-          <a class="nav-link" href="#">Encadrants</a>
-          <a class="nav-link" href="#">Établissements</a>
+          <a class="nav-link {{ request()->routeIs('superadmin') ? 'active' : '' }}" aria-current="page" href="{{ route('superadmin') }}">Statistiques</a>
+          <a class="nav-link {{ request()->routeIs('comptes.index') ? 'active' : '' }}" href="{{ route('comptes.index') }}">Comptes</a>
+          <a class="nav-link {{ request()->routeIs('structuresIAP.index') ? 'active' : '' }}" href="{{ route('structuresIAP.index') }}">Structures IAP</a>
+          <a class="nav-link {{ request()->routeIs('structuresAffectation.index') ? 'active' : '' }}" href="{{ route('structuresAffectation.index') }}">Structures D'affectation</a>
+          <a class="nav-link {{ request()->routeIs('encadrants.index') ? 'active' : '' }}" href="{{ route('encadrants.index') }}">Encadrants</a>
+          <a class="nav-link {{ request()->routeIs('etablissements.index') ? 'active' : '' }}" href="{{ route('etablissements.index') }}">Établissements</a>
+
 
           <div class="hidden sm:flex sm:items-center sm:ms-6" style="margin-left: 350px">
             <x-dropdown align="right" width="48">
                 <x-slot name="trigger">
-                    <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                        <div>{{ Auth::user()->name }}</div>
+                    <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">        
+                    <div>{{ Auth::user()->name }}</div>
+      
                         <div class="ms-1">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />

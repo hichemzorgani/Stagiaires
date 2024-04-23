@@ -19,7 +19,7 @@ class SubAdmin
 
         if (Auth::check()) {
 
-            if (Auth::user()->usertype === 'subadmin' || Auth::user()->usertype === 'superadmin') {
+            if (Auth::user()->usertype === 'Subadmin' || Auth::user()->usertype === 'Superadmin') {
                 return $next($request);
             }
         }
