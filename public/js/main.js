@@ -14,3 +14,6 @@ const typeSelect = document.getElementById('type');
     function goBack() {
         window.history.back();
     }
+
+
+

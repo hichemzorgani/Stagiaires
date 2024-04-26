@@ -15,10 +15,10 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     </head>
-    <body class="font-sans text-gray-900 antialiased ">     
-        <div id="bg" class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+    <body id="background" class="font-sans text-gray-900 antialiased ">    
+        <div  class=" min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
-                <a href="/">
+                <a href="#">
                     <img src="{{ asset('storage/img/Sonatrach.png') }}" height="70px" width="70px">
                 </a>
             </div>

@@ -1,6 +1,11 @@
-#bg {
-    background-image: url('/img/bg.jpg');
+#background {
+     background-image: url("{{ asset('images/background.jpg') }}");
+     background-size: cover; 
+     background-position: center; 
+     background-attachment: fixed;
 }
+
+
 #add_edit_div{
         border: 2px solid black; 
         border-radius: 10px; 
