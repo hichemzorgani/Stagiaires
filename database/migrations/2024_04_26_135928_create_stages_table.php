@@ -19,8 +19,10 @@ return new class extends Migration
             $table->string('speciality');
             $table->date('start_date');
             $table->date('end_date');
-            $table->enum('level', ['Licence', 'Master', 'Doctorat']);
+            $table->enum('level', ['Licence', 'Master', 'Doctorat', 'Ingenieur']);
             $table->enum('stagiare_count', ['Monome', 'Binome', 'Trinome']);
+            $table->unsignedInteger('year')->default(date('Y'));
+            $table->enum('reception_day', ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']);
             $table->unsignedBigInteger('encadrant_id');
             $table->foreign('encadrant_id')->references('id')->on('encadrants')->onDelete('cascade');
             $table->unsignedBigInteger('etablissement_id');

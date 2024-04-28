@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Stagiaire;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StagiaireController extends Controller
 {
@@ -12,7 +13,9 @@ class StagiaireController extends Controller
      */
     public function index()
     {
-        //
+        $stagiaires = Stagiaire::orderBy('last_name')->orderBy('first_name')->paginate(20);
+
+        return view('admin.stagiaires', compact('stagiaires'));
     }
 
     /**

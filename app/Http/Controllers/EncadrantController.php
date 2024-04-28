@@ -13,7 +13,10 @@ class EncadrantController extends Controller
      */
     public function index()
     {
-        $encadrants =  Encadrant::orderBy('structuresAffectation_id')
+        $encadrants = Encadrant::join('structures_affectations', 'encadrants.structuresAffectation_id', '=', 'structures_affectations.id')
+            ->orderBy('structures_affectations.structuresIAP_id')
+            ->orderBy('parent_id')
+            ->orderBy('structuresAffectation_id')
             ->orderBy('function')
             ->orderBy('last_name')
             ->orderBy('first_name')
@@ -65,7 +68,10 @@ class EncadrantController extends Controller
      */
     public function edit(Encadrant $encadrant)
     {
-        $encadrants =  Encadrant::orderBy('structuresAffectation_id')
+        $encadrants = Encadrant::join('structures_affectations', 'encadrants.structuresAffectation_id', '=', 'structures_affectations.id')
+            ->orderBy('structures_affectations.structuresIAP_id')
+            ->orderBy('parent_id')
+            ->orderBy('structuresAffectation_id')
             ->orderBy('function')
             ->orderBy('last_name')
             ->orderBy('first_name')

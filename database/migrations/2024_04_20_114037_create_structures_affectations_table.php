@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('type', ['Direction', 'Sous-direction', 'Departement']);
             $table->integer('quota_pfe')->unsigned();
             $table->integer('quota_im')->unsigned();
-            $table->integer('year')->unsigned()->default(date('Y'));;
+            $table->unsignedInteger('year')->default(date('Y'));
             $table->unsignedBigInteger('structuresIAP_id');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->foreign('structuresIAP_id')->references('id')->on('structures_i_a_p_s')->onDelete('cascade');

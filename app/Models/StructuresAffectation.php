@@ -32,4 +32,9 @@ class StructuresAffectation extends Model
     {
         return $this->belongsTo(StructuresAffectation::class, 'parent_id');
     }
+
+    public function stages()
+    {
+        return $this->hasMany(Stage::class, 'structuresAffectation_id');
+    }
 }

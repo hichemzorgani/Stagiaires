@@ -16,6 +16,7 @@ class Stage extends Model
         'speciality',
         'start_date',
         'end_date',
+        'reception_day',
         'level',
         'stagiare_count',
         'encadrant_id',
@@ -36,5 +37,11 @@ class Stage extends Model
     public function structureAffectation()
     {
         return $this->belongsTo(StructuresAffectation::class, 'structuresAffectation_id');
+    }
+
+    public function stagiaires()
+    {
+
+        return $this->hasMany(Stagiaire::class);
     }
 }

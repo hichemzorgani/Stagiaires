@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Statistiques</a>
+          <a class="nav-link" aria-current="page" href="{{route('statistiquesAdmin')}}">Statistiques</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -16,15 +16,16 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{route('stages.create')}}">Ajouter un stage</a></li>
+            <li><a class="dropdown-item" href="{{route('search.index')}}">Rechercher un stage</a></li>
             <li><a class="dropdown-item" href="{{route('stages.index')}}">Liste des stages</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Stagiares
+            Stagiaires
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Liste des stagiaires</a></li>
+            <li><a class="dropdown-item" href="{{route('stagiares.index')}}">Liste des stagiaires</a></li>
           </ul>
         </li>
         

@@ -13,7 +13,7 @@
           <a class="nav-link {{ request()->routeIs('structuresAffectation.index') ? 'active' : '' }}" href="{{ route('structuresAffectation.index') }}">Structures D'affectation</a>
           <a class="nav-link {{ request()->routeIs('encadrants.index') ? 'active' : '' }}" href="{{ route('encadrants.index') }}">Encadrants</a>
           <a class="nav-link {{ request()->routeIs('etablissements.index') ? 'active' : '' }}" href="{{ route('etablissements.index') }}">Établissements</a>
-
+          <a class="nav-link" href="{{ route('stages.index') }}">Stages</a>
 
           <div class="hidden sm:flex sm:items-center sm:ms-6" style="margin-left: 350px">
             <x-dropdown align="right" width="48">
