@@ -1,7 +1,11 @@
 <x-master title="Établissements">
-    <div id="add_edit_div">
+    
     @if(request()->has('modifier'))
-    <p class="h5">Modifier un Établissement</p>
+    <div class="title">
+        <h1>Modifier un établissement</h1>
+    </div>
+  
+    <div id="add_edit_div">
     <form action="{{ route('etablissements.update', $etablissement->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -78,12 +82,19 @@
             </div>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary" name="modifier">Enregistrer</button>
-            <button type="button" class="btn btn-danger" onclick="goBack()">Annuler</button>
+            <button type="submit" class="btn btn-sm btn-primary">
+                <i class="bi bi-building-check"></i> Enregistrer
+            </button>                
+            <button type="button" class="btn btn-sm btn-warning" onclick="goBack()"><i class="bi bi-x-lg"></i> Annuler</button>
         </div>    
     </form>
+    </div>
     @else
-    <p class="h5">Ajouter Un Établissement</p>
+    <div class="title">
+        <h1>Ajouter un établissement</h1>
+    </div>
+
+    <div id="add_edit_div">
     <form action="{{ route('etablissements.store') }}" method="POST">
         @csrf 
         <div class="form-group">
@@ -159,44 +170,67 @@
             </div>
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-success" value="Ajouter" name="ajouter">
+            <button type="submit" class="btn btn-sm btn-success" name="ajouter">
+                <i class="bi bi-building-add"></i> Ajouter
+            </button>
         </div>    
     </form>
-
+    </div>
     @endif
-</div>
 
 
-<p class="h4">
-    Liste des Établissements
-</p>
+@if ($etablissements->isEmpty())
+        <p class="h3 text-center my-3">Aucun établissement trouvé.</p>
+        @else
+        <div class="d-flex">
+            <div class="col">
+                <div class="title">
+                    <h1>Liste des établissements</h1>
+                </div>
+            </div>
+            <form  method="POST" action="{{ route('etablissements.searchEtablissement')}}">
+                @csrf
+            <div class="col d-flex">
+                <div style="width: 350px">
+                    <input name="name" placeholder=" Étbalissement" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-sm btn-warning mx-1">
+                        <i class="bi bi-search"></i> Rechercher
+                    </button>
+                </div>         
+            </div>
+            </form>
+        </div>
 
-
-    <table class="table table-dark table-striped table-hover">
+<div class="table-responsive">
+<table class="table table-sm table-dark table-bordered table-striped table-hover">
         <tr>
             <th>Nom</th>
             <th>Wilaya</th>
-            <th>Modification</th>
-            <th>Désactivation</th>
+            <th style="text-align: center;">Options</th>
         </tr>    
         @foreach ($etablissements as $etablissement)
     <tr>
         <td>{{$etablissement->name}}</td>
         <td>{{$etablissement->wilaya}}</td>
         <td>
+            <div class="d-flex justify-content-center align-items-center">
             <form action ="{{route('etablissements.edit',$etablissement->id)}}" method="GET">
             @csrf
-           <button class="btn btn-primary" name="modifier">Modifier</button>
+           <button class="btn btn-sm btn-warning mx-1" name="modifier">
+                    <i class="bi bi-pencil-square"></i>
+           </button>
             </form>
-        </td>
-        <td>
+        
             <form action ="{{route('etablissements.destroy', $etablissement->id)}}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{$etablissement->id}}">
-                    Désactiver
+                <button type="button" class="btn btn-sm btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{$etablissement->id}}">
+                    <i class="bi bi-trash3-fill"></i>
                   </button>
                 </form>  
+            </div>
         </td>
     </tr> 
     <div class="modal fade" id="exampleModal{{$etablissement->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -214,7 +248,7 @@
               <form action ="{{route('etablissements.destroy', $etablissement->id)}}" method="POST">
                 @csrf
                 @method('DELETE')
-              <button type="submit" class="btn btn-danger">Oui</button>
+              <button type="submit" class="btn btn-warning">Oui</button>
                 </form>
             </div>
           </div>
@@ -222,6 +256,10 @@
       </div>
 @endforeach
 </table>
-<div class="my-1" > {{$etablissements->links()}} </div>
+</div>
+<div class="paginator">
+    {{ $etablissements->links() }}
+</div>
+@endif
 
 </x-master>

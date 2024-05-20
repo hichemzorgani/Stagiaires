@@ -15,6 +15,7 @@ class Encadrant extends Model
         'registration_id',
         'email',
         'function',
+        'fibre_sh',
         'structuresAffectation_id'
     ];
 

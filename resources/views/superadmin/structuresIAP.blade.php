@@ -1,7 +1,11 @@
 <x-master title="Structures IAP">
-    <div id="add_edit_div">  
+     
             @if(request()->has('modifier'))
-            <p class="h3">Modifier le nom de la structure IAP </p>
+            <div class="title">
+                <h1>Modifier une structure IAP</h1>
+              </div>
+          
+            <div id="add_edit_div"> 
                 <form action="{{ route('structuresIAP.update',$structuresIAP->id) }}" method="POST">
                     @csrf 
                     @method('PUT')
@@ -14,14 +18,20 @@
                         @enderror    
                         </div>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="Enregistrer" name="modifier">
-                        <button type="button" class="btn btn-danger" onclick="goBack()">Annuler</button>
+                    <div class="form-group">                  
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="bi bi-house-check-fill"></i> Enregistrer
+                        </button>
+                        <button type="button" class="btn btn-sm btn-warning" onclick="goBack()"><i class="bi bi-x-lg"> Annuler</i></button>
                     </div>    
                 </form>
-            @else   
-            <p class="h3">                    
-                Ajouter une structure IAP </p>
+            </div>
+            @else
+            <div class="title">
+                <h1>Ajouter une structure IAP</h1>
+              </div>
+                   
+                <div id="add_edit_div"> 
                 <form action="{{ route('structuresIAP.store') }}" method="POST">
                     @csrf 
                     <div class="form-group">
@@ -34,40 +44,70 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="btn btn-success" value="Ajouter" name="ajouter">
+                        <button type="submit" class="btn btn-sm btn-success" name="ajouter"><i class="bi bi-house-add-fill"></i> Ajouter</button>
                     </div>    
                 </form>
+            </div>
             @endif
         
+ 
+    @if ($structuresIAPs->isEmpty())
+    <p class="h3 text-center my-3">Aucune structure IAP trouvé.</p>
+    @else
+    <div class="d-flex">
+        <div class="col">
+            <div class="title">
+                <h1>Liste des structures IAP</h1>
+              </div>
+        </div>
+        <form  method="POST" action="{{ route('structuresIAP.searchIAP')}}">
+            @csrf
+        <div class="col d-flex">
+            <div style="width: 350px">
+                <input name="name" placeholder="Structure IAP" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-sm btn-warning mx-1">
+                    <i class="bi bi-search"></i> Rechercher
+                </button>
+            </div>         
+        </div>
+        </form>
     </div>
-    <p class="h4">
-        Liste des structures IAP
-    </p>
-    <table class="table table-dark table-striped table-hover">
+
+
+  
+    <div class="table-responsive">
+    <table class="table table-sm table-dark table-bordered table-striped table-hover">
+
         <tr>
             <th>Nom</th>
-            <th>Modification</th>
-            <th>Désactivation</th>
-        </tr>    
+            <th style="text-align: center;">Options</th>
+        </tr>
+
     @foreach ($structuresIAPs as $structuresIAP)
         <tr>
             <td>{{$structuresIAP->name}}</td>
             <td>
+                <div class="d-flex justify-content-center align-items-center">
                 <form action ="{{route('structuresIAP.edit', $structuresIAP->id)}}" method="GET">
                     @csrf
-                   <button class="btn btn-primary" name="modifier">Modifier</button>
+                   <button class="btn btn-sm btn-warning mx-1" name="modifier">
+                    <i class="bi bi-pencil-square"></i>
+                   </button>
                     </form> 
-                </td>
-                <td>       
+                      
                 <form action ="{{route('structuresIAP.destroy', $structuresIAP->id)}}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{$structuresIAP->id}}">
-                        Désactiver
+                    <button type="button" class="btn btn-sm btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{$structuresIAP->id}}">
+                        <i class="bi bi-trash3-fill"></i>
                       </button>
-                    </form> 
+                    </form>
+                </div> 
             </td>
-        </tr> 
+        </tr>
+
         <div class="modal fade" id="exampleModal{{$structuresIAP->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -83,7 +123,7 @@
                   <form action ="{{route('structuresIAP.destroy', $structuresIAP->id)}}" method="POST">
                     @csrf
                     @method('DELETE')
-                  <button type="submit" class="btn btn-danger">Oui</button>
+                  <button type="submit" class="btn btn-warning">Oui</button>
                     </form>
                 </div>
               </div>
@@ -91,7 +131,11 @@
           </div>
     @endforeach
     </table>
-    <div class="my-1" > {{$structuresIAPs->links()}} </div>
-    
+    </div>
+    <div class="paginator">
+        {{ $structuresIAPs->links() }}
+    </div>
+
+   @endif 
     </x-master>
     

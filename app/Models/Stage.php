@@ -12,17 +12,24 @@ class Stage extends Model
     protected $fillable = [
         'stage_type',
         'theme',
-        'domain',
-        'speciality',
         'start_date',
         'end_date',
-        'reception_day',
+        'reception_days',
         'level',
         'stagiare_count',
+        'year',
+        'memoire',
+        'cloture',
+        'specialite_id',
         'encadrant_id',
         'etablissement_id',
         'structuresAffectation_id',
     ];
+
+    public function specialite()
+    {
+        return $this->belongsTo(Specialite::class);
+    }
 
     public function encadrant()
     {

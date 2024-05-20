@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('registration_id')->unique();
             $table->string('email')->unique();
             $table->string('function');
+            $table->string('fibre_sh');
             $table->unsignedBigInteger('structuresAffectation_id');
             $table->foreign('structuresAffectation_id')->references('id')->on('structures_affectations')->onDelete('cascade');
             $table->timestamps();

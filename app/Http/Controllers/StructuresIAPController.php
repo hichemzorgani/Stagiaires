@@ -12,7 +12,7 @@ class StructuresIAPController extends Controller
      */
     public function index()
     {
-        $structuresIAPs = StructuresIAP::paginate(5);
+        $structuresIAPs = StructuresIAP::paginate(10);
         return view('superadmin.structuresIAP', compact('structuresIAPs'));
     }
 
@@ -52,7 +52,7 @@ class StructuresIAPController extends Controller
      */
     public function edit(StructuresIAP $structuresIAP)
     {
-        $structuresIAPs = StructuresIAP::paginate(5);
+        $structuresIAPs = StructuresIAP::paginate(10);
         return view('superadmin.structuresIAP', compact('structuresIAPs', 'structuresIAP'));
     }
 

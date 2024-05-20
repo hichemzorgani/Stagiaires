@@ -1,19 +1,82 @@
-#background {
-     background-image: url("{{ asset('images/background.jpg') }}");
-     background-size: cover; 
-     background-position: center; 
-     background-attachment: fixed;
-}
-
-
 #add_edit_div {
-        border: 2px solid black;
-        border-radius: 5px;
-        padding: 10px;
-        background-color: lightgrey;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+     border: 1px solid black; /* Bootstrap's default border color */
+     border-radius: 0.25rem; /* Bootstrap's default border radius */
+     padding: 10px;
+     margin: 10px 0;
+     background-color: #ffffff; /* White background */
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+ body {
+     background-image: linear-gradient(45deg, rgb(240, 92, 24) 0%, rgb(240, 92, 24) 18%, rgb(239, 116, 49) 18%, rgb(239, 116, 49) 33%, rgb(238, 140, 73) 33%, rgb(238, 140, 73) 38%, rgb(237, 165, 98) 38%, rgb(237, 165, 98) 53%, rgb(235, 189, 122) 53%, rgb(235, 189, 122) 56%, rgb(234, 213, 147) 56%, rgb(234, 213, 147) 83%, rgb(233, 237, 171) 83%, rgb(233, 237, 171) 100%), linear-gradient(0deg, rgb(240, 92, 24) 0%, rgb(240, 92, 24) 18%, rgb(239, 116, 49) 18%, rgb(239, 116, 49) 33%, rgb(238, 140, 73) 33%, rgb(238, 140, 73) 38%, rgb(237, 165, 98) 38%, rgb(237, 165, 98) 53%, rgb(235, 189, 122) 53%, rgb(235, 189, 122) 56%, rgb(234, 213, 147) 56%, rgb(234, 213, 147) 83%, rgb(233, 237, 171) 83%, rgb(233, 237, 171) 100%), linear-gradient(67.5deg, rgb(240, 92, 24) 0%, rgb(240, 92, 24) 18%, rgb(239, 116, 49) 18%, rgb(239, 116, 49) 33%, rgb(238, 140, 73) 33%, rgb(238, 140, 73) 38%, rgb(237, 165, 98) 38%, rgb(237, 165, 98) 53%, rgb(235, 189, 122) 53%, rgb(235, 189, 122) 56%, rgb(234, 213, 147) 56%, rgb(234, 213, 147) 83%, rgb(233, 237, 171) 83%, rgb(233, 237, 171) 100%), linear-gradient(22.5deg, rgb(240, 92, 24) 0%, rgb(240, 92, 24) 18%, rgb(239, 116, 49) 18%, rgb(239, 116, 49) 33%, rgb(238, 140, 73) 33%, rgb(238, 140, 73) 38%, rgb(237, 165, 98) 38%, rgb(237, 165, 98) 53%, rgb(235, 189, 122) 53%, rgb(235, 189, 122) 56%, rgb(234, 213, 147) 56%, rgb(234, 213, 147) 83%, rgb(233, 237, 171) 83%, rgb(233, 237, 171) 100%), linear-gradient(90deg, rgb(243, 116, 163), rgb(252, 182, 229)); 
+     background-blend-mode: overlay, overlay, overlay, overlay, normal;
+     min-height: 100vh;
+     background-size: cover;
+     background-position: center;
+     margin: 0;
+     padding: 0;
+       }
+
+       /* Style par défaut */
+       .pagination .page-link {
+        color: #ffc107 !important;
+        background-color: #343a40; 
+        border-color: #343a40; 
     }
     
- 
-        
+    /* Style au survol */
+    .pagination .page-link:hover,
+    .pagination .page-item.active .page-link {
+        color: #343a40 !important; 
+        background-color: #ffc107;
+        border-color: #ffc107; 
+    }
     
+    /* Style pour les liens inactifs */
+    .pagination .page-item.disabled .page-link {
+        color: #ffc107 !important; 
+        background-color: #343a40;
+        border-color: #ffc107;
+    }
+    
+    .pagination .page-link:focus {
+        box-shadow: none; 
+        outline: none; 
+    }
+    
+    .pagination {
+        justify-content: flex-end; 
+    }
+    
+    .small.text-muted {
+      display: none;
+    } 
+  
+    .title h1 {
+        font-size: 28px;
+        font-weight: 500;
+        font-family: Roboto;
+        letter-spacing: 0;
+        line-height: 1.5em;
+        padding-bottom: 10px;
+        position: relative;
+      }
+      .title h1:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 5px;
+        width: 55px;
+        background-color: #111;
+      }
+      .title h1:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 2px;
+        height: 1px;
+        width: 95%;
+        max-width: 255px;
+        background-color: #333;
+      }
+

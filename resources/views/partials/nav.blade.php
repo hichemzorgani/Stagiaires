@@ -1,25 +1,34 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-    <img src="{{ asset('storage/img/Sonatrach.png') }}" height="40px" width="40px">
+    <img src="{{ asset('storage/img/Sonatrach.png') }}" class="rounded" height="40px" width="40px">
       <a class="navbar-brand mx-2" href="#">SONATRACH</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link {{ request()->routeIs('superadmin') ? 'active' : '' }}" aria-current="page" href="{{ route('superadmin') }}">Statistiques</a>
-          <a class="nav-link {{ request()->routeIs('comptes.index') ? 'active' : '' }}" href="{{ route('comptes.index') }}">Comptes</a>
-          <a class="nav-link {{ request()->routeIs('structuresIAP.index') ? 'active' : '' }}" href="{{ route('structuresIAP.index') }}">Structures IAP</a>
-          <a class="nav-link {{ request()->routeIs('structuresAffectation.index') ? 'active' : '' }}" href="{{ route('structuresAffectation.index') }}">Structures D'affectation</a>
-          <a class="nav-link {{ request()->routeIs('encadrants.index') ? 'active' : '' }}" href="{{ route('encadrants.index') }}">Encadrants</a>
-          <a class="nav-link {{ request()->routeIs('etablissements.index') ? 'active' : '' }}" href="{{ route('etablissements.index') }}">Établissements</a>
-          <a class="nav-link" href="{{ route('stages.index') }}">Stages</a>
+          <a class="nav-link {{ request()->routeIs('superadmin') ? 'active' : '' }}" aria-current="page" href="{{ route('superadmin') }}">Statistiques <i class="bi bi-graph-up"></i></a>
+          <a class="nav-link {{ request()->routeIs('comptes.index') ? 'active' : '' }}" href="{{ route('comptes.index') }}">Comptes <i class="bi bi-people-fill"></i></a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Administration <i class="bi bi-gear-fill"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{route('structuresIAP.index')}}">Structures IAP <i class="bi bi-houses-fill"></i></a></li>
+              <li><a class="dropdown-item" href="{{route('structuresAffectation.index')}}">Structures D'affectation <i class="bi bi-building-fill"></i></a></li>
+              <li><a class="dropdown-item" href="{{route('encadrants.index')}}">Encadrants <i class="bi bi-person-lines-fill"></i></a></li>
+              <li><a class="dropdown-item" href="{{route('domaines.index')}}">Domaines <i class="bi bi-journals"></i></a></li>
+              <li><a class="dropdown-item" href="{{route('specialites.index')}}">Spécialités <i class="bi bi-bookmarks-fill"></i></a></li>
+            </ul>
+          </li>
+          <a class="nav-link {{ request()->routeIs('etablissements.index') ? 'active' : '' }}" href="{{ route('etablissements.index') }}">Établissements <i class="bi bi-buildings"></i></a>
 
-          <div class="hidden sm:flex sm:items-center sm:ms-6" style="margin-left: 350px">
+
+          <div class="hidden sm:flex sm:items-center sm:ms-6" style="margin-left: 310px">
             <x-dropdown align="right" width="48">
                 <x-slot name="trigger">
                     <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">        
-                    <div>{{ Auth::user()->name }}</div>
+                    <div><i class="bi bi-person-circle"></i> {{ Auth::user()->name }}</div>
       
                         <div class="ms-1">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

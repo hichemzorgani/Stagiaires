@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
   <div class="container-fluid">
-    <img src="{{ asset('storage/img/Sonatrach.png') }}" height="40px" width="40px">
+    <img src="{{ asset('storage/img/Sonatrach.png') }}" class="rounded" height="40px" width="40px">
     <a class="navbar-brand mx-2" href="#">SONATRACH</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -16,8 +16,8 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{route('stages.create')}}">Ajouter un stage</a></li>
-            <li><a class="dropdown-item" href="{{route('search.index')}}">Rechercher un stage</a></li>
-            <li><a class="dropdown-item" href="{{route('stages.index')}}">Liste des stages</a></li>
+            <li><a class="dropdown-item" href="{{route('stages.index')}}">Liste des stages en cours</a></li>
+            <li><a class="dropdown-item" href="{{route('stages.searchStages')}}">Rechercher un stage</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -26,6 +26,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{route('stagiares.index')}}">Liste des stagiaires</a></li>
+            <li><a class="dropdown-item" href="{{route('attestation')}}">Imprimer attestation</a></li>
           </ul>
         </li>
         

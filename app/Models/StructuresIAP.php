@@ -17,4 +17,9 @@ class StructuresIAP extends Model
     {
         return $this->hasMany(StructuresAffectation::class);
     }
+
+    public function domaines()
+    {
+        return $this->hasMany(Domaine::class, 'structuresIAP_id');
+    }
 }

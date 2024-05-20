@@ -65,4 +65,22 @@ class StagiaireController extends Controller
     {
         //
     }
+
+    public function indexSecurity()
+    {
+        $stagiaires = Stagiaire::orderBy('id')->paginate(10);
+        return view('security.index', compact('stagiaires'));
+    }
+    public function searchSecurity(Request $request)
+    {
+        $query = Stagiaire::query();
+
+        if ($request->has('name')) {
+            $query->where('last_name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        $stagiaires = $query->get();
+
+        return view('security.index', compact('stagiaires'));
+    }
 }

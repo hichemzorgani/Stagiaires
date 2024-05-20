@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Domaine;
 use App\Models\Encadrant;
 use App\Models\Etablissement;
+use App\Models\Specialite;
 use App\Models\Stage;
 use App\Models\Stagiaire;
 use App\Models\StructuresAffectation;
@@ -18,9 +20,44 @@ class StageController extends Controller
      */
     public function index()
     {
-        $stages = Stage::orderBy('structuresAffectation_id')
-            ->orderBy('encadrant_id')->orderBy('stage_type')->orderBy('start_date')->paginate(10);
-        return view('admin.stages', compact('stages',));
+        $userStructuresIAPId = Auth::user()->structuresIAP_id;
+
+        $domaines = Domaine::where('structuresIAP_id', Auth::user()->structuresIAP_id)->get();
+        $specialites = Specialite::join('domaines', 'specialites.domaine_id', '=', 'domaines.id')
+            ->where('domaines.structuresIAP_id', Auth::user()->structuresIAP_id)
+            ->orderBy('domaines.structuresIAP_id')
+            ->orderBy('domaines.name')
+            ->orderBy('specialites.name')
+            ->select('specialites.*')
+            ->get();
+        $encadrants = Encadrant::whereHas('structureAffectation.structuresIAP', function ($query) {
+            $query->where('id', Auth::user()->structuresIAP_id);
+        })->get();
+        $etablissements = Etablissement::orderBy('name')->get();
+        $structuresAffectations = StructuresAffectation::where('structuresIAP_id', '=', Auth::user()->structuresIAP_id)->get();
+        $themes = Stage::join('structures_affectations', function ($join) use ($userStructuresIAPId) {
+            $join->on('stages.structuresAffectation_id', '=', 'structures_affectations.id')
+                ->where('structures_affectations.structuresIAP_id', '=', $userStructuresIAPId);
+        })
+            ->where('stages.year', date('Y'))
+            ->orderBy('stages.structuresAffectation_id')
+            ->orderBy('stages.encadrant_id')
+            ->orderBy('stages.stage_type')
+            ->orderBy('stages.start_date')
+            ->pluck('stages.theme');
+        $stages = Stage::join('structures_affectations', function ($join) use ($userStructuresIAPId) {
+            $join->on('stages.structuresAffectation_id', '=', 'structures_affectations.id')
+                ->where('structures_affectations.structuresIAP_id', '=', $userStructuresIAPId);
+        })
+            ->where('stages.year', date('Y'))
+            ->orderBy('stages.structuresAffectation_id')
+            ->orderBy('stages.encadrant_id')
+            ->orderBy('stages.stage_type')
+            ->orderBy('stages.start_date')
+            ->with('stagiaires') // Eager load the stagiaires relationship
+            ->select('stages.*')
+            ->paginate(5);
+        return view('admin.stages', compact('stages', 'domaines', 'specialites', 'encadrants', 'etablissements', 'structuresAffectations', 'themes'));
     }
 
     /**
@@ -28,12 +65,21 @@ class StageController extends Controller
      */
     public function create()
     {
+
+        $domaines = Domaine::where('structuresIAP_id', Auth::user()->structuresIAP_id)->get();
+        $specialites = Specialite::join('domaines', 'specialites.domaine_id', '=', 'domaines.id')
+            ->where('domaines.structuresIAP_id', Auth::user()->structuresIAP_id)
+            ->orderBy('domaines.structuresIAP_id')
+            ->orderBy('domaines.name')
+            ->orderBy('specialites.name')
+            ->select('specialites.*')
+            ->get();
         $encadrants = Encadrant::whereHas('structureAffectation.structuresIAP', function ($query) {
             $query->where('id', Auth::user()->structuresIAP_id);
         })->get();
         $etablissements = Etablissement::orderBy('name')->get();
         $structuresAffectations = StructuresAffectation::where('structuresIAP_id', '=', Auth::user()->structuresIAP_id)->get();
-        return view('admin.create', compact('structuresAffectations', 'etablissements', 'encadrants'));
+        return view('admin.create', compact('structuresAffectations', 'etablissements', 'encadrants', 'specialites', 'domaines'));
     }
 
     /**
@@ -47,13 +93,12 @@ class StageController extends Controller
             $validatedDataStage = $request->validate([
                 'stage_type' => 'required|in:pfe,immersion',
                 'theme' => 'required|string',
-                'domain' => 'required|string',
-                'speciality' => 'required|string',
+                'specialite_id' => 'required|exists:specialites,id',
                 'start_date' => 'required|date',
-                'reception_day' => 'required|in:Dimanche,Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi',
+                'reception_days' => 'required|string',
                 'end_date' => 'required|date|after:start_date',
-                'level' => 'required|in:Master,Licence,Doctorat',
-                'stagiare_count' => 'required|in:Monome,Binome,Trinome',
+                'level' => 'required|in:Master,Licence,Doctorat,Ingenieur,TS',
+                'stagiare_count' => 'required|in:Monome,Binome,Trinome,Quadrinome',
                 'encadrant_id' => 'required|exists:encadrants,id',
                 'etablissement_id' => 'required|exists:etablissements,id',
                 'structuresAffectation_id' => 'required|exists:structures_affectations,id',
@@ -71,6 +116,9 @@ class StageController extends Controller
                 case 'Trinome':
                     $count = 3;
                     break;
+                case 'Quadrinome':
+                    $count = 4;
+                    break;
             }
             for ($i = 1; $i <= $count; $i++) {
                 $request->validate([
@@ -78,7 +126,7 @@ class StageController extends Controller
                     "first_name{$i}" => 'required|string',
                     "date_of_birth{$i}" => 'required|date',
                     "place_of_birth{$i}" => 'required|string',
-                    "adress{$i}" => 'required|string',
+                    "phone_number{$i}" => 'required|string',
                     "email{$i}" => 'required|email',
                     "blood_group{$i}" => 'required|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
                 ]);
@@ -88,7 +136,7 @@ class StageController extends Controller
                     'first_name' => $request->input("first_name{$i}"),
                     'date_of_birth' => $request->input("date_of_birth{$i}"),
                     'place_of_birth' => $request->input("place_of_birth{$i}"),
-                    'adress' => $request->input("adress{$i}"),
+                    'phone_number' => $request->input("phone_number{$i}"),
                     'email' => $request->input("email{$i}"),
                     'blood_group' => $request->input("blood_group{$i}"),
                     'stage_id' => $stage->id,
@@ -108,7 +156,6 @@ class StageController extends Controller
      */
     public function show(Stage $stage)
     {
-        //
     }
 
     /**

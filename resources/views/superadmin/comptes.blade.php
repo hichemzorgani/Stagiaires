@@ -1,5 +1,10 @@
 <x-master title="Comptes">    
        @if(request()->has('modifier'))
+       <div class="title">
+         <h1>Modifier un compte</h1>
+     </div>
+
+
        <div id="add_edit_div">
         <form action="{{ route('comptes.update', $compte->id) }}" method="POST">
             @csrf
@@ -7,7 +12,7 @@
     
             <div class="row">
                 <div class="col-6">
-                    <p class="h4">Modifier le Compte</p>
+                    
     
                     <div class="mb-3">
                         <label for="structuresIAP_id" class="h6">Structure IAP</label>
@@ -36,13 +41,14 @@
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-    
-                    <input type="submit" class="btn btn-primary" value="Enregistrer" name="modifier">
-                    <button type="button" class="btn btn-danger" onclick="goBack()">Annuler</button>
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="bi bi-person-check-fill"></i> Enregistrer
+                    </button> 
+                    <button type="button" class="btn btn-sm btn-warning" onclick="goBack()"><i class="bi bi-x-lg"> Annuler</i></button>
                 </div>
                 
                 <div class="col-6">
-                    <p style="margin-top: 39px;" class="h6">Email</p>
+                    <p style="margin-top:2px;" class="h6">Email</p>
                     <div class="input-group input-group-sm mb-3">
                         <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $compte->email) }}">
                         @error('email')
@@ -71,10 +77,15 @@
     </div>
         
         @else
+        <div class="title">
+            <h1>Ajouter un compte</h1>
+        </div>
+
+     
         <div id="add_edit_div">
     <form action="{{ route('comptes.store') }}" method="POST">
         @csrf
-        <p class="h4">Ajouter un Compte</p>
+        
 
         <div class="row">
             <div class="col-6">
@@ -101,7 +112,9 @@
                     <small class="text-danger">{{$message}}</small>               
                     @enderror
                 </div>
-                <button type="submit" class="btn btn-success" name="ajouter">Ajouter</button>
+                <button type="submit" class="btn btn-sm btn-success" name="ajouter">
+                    <i class="bi bi-person-plus-fill"></i> Ajouter
+                </button>
             </div>
             <div class="col-6">
                 <p class="h6">Email</p>
@@ -120,7 +133,7 @@
                     @enderror
                 </div>
 
-                <p class="h6">Confirmer le nouveau mot de passe</p>
+                <p class="h6">Confirmer le mot de passe</p>
                 <div class="input-group input-group-sm mb-3">
                     <input type="password" name="password_confirmation" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required>
                     @error('password_confirmation')
@@ -133,16 +146,39 @@
 </div>
 
         @endif
+   
+        @if ($comptes->isEmpty())
+        <p class="h3 text-center my-3">Aucun compte trouvé.</p>
+        @else
+        <div class="d-flex">
+            <div class="col">
+                <div class="title">
+                    <h1>Liste des comptes</h1>
+                  </div>
+            </div>
+            <form  method="POST" action="{{ route('comptes.searchComptes')}}">
+                @csrf
+            <div class="col d-flex">
+                <div style="width: 350px">
+                    <input name="name" placeholder="Username" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-sm btn-warning mx-1">
+                        <i class="bi bi-search"></i> Rechercher
+                    </button>
+                </div>         
+            </div>
+            </form>
+        </div>
     
-    <p class="h4">Liste des Comptes</p>
-    <table class="table table-dark table-striped table-hover">
+    <div class="table-responsive">
+    <table class="table table-sm table-dark table-bordered table-striped table-hover">
         <tr>
             <th>Username</th>
             <th>Email</th>
             <th>User Type</th>
             <th>Structure IAP</th>
-            <th>Modification</th>
-            <th>Désactivation</th>
+            <th style="text-align: center;">Options</th>
         </tr>   
         @foreach ($comptes as $compte)
         <tr>
@@ -150,20 +186,22 @@
             <td>{{$compte->email}}</td>
             <td>{{$compte->usertype}}</td>
             <td>{{$compte->structuresIAP->name}}</td>
-            <td>
+            <td style="width: auto;">
+                <div class="d-flex justify-content-center align-items-center">
                 <form action ="{{route('comptes.edit',$compte->id)}}" method="GET">
                     @csrf
-                   <button class="btn btn-primary" name="modifier">Modifier</button>
+                   <button class="btn btn-sm btn-warning mx-1" name="modifier">
+                    <i class="bi bi-pencil-square"></i>
+                   </button>
                     </form> 
-                </td>
-                <td>
                     <form action ="{{route('comptes.destroy', $compte->id)}}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{$compte->id}}">
-                            Désactiver
+                        <button type="button" class="btn btn-sm btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{$compte->id}}">
+                            <i class="bi bi-trash3-fill"></i>
                           </button>
-                        </form> 
+                        </form>
+                    </div> 
                     </td> 
         </tr>
         <div class="modal fade" id="exampleModal{{$compte->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -185,7 +223,7 @@
                   <form action ="{{route('comptes.destroy', $compte->id)}}" method="POST">
                     @csrf
                     @method('DELETE')
-                  <button type="submit" class="btn btn-danger">Oui</button>
+                  <button type="submit" class="btn btn-warning">Oui</button>
                     </form>
                 </div>
               </div>
@@ -193,5 +231,9 @@
           </div>
         @endforeach
     </table>
-    <div class="my-1" > {{$comptes->links()}} </div>
+    </div>
+    <div class="paginator">
+        {{ $comptes->links() }}
+    </div>
+    @endif
 </x-master>

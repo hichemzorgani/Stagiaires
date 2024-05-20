@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Encadrant;
 use App\Models\StructuresAffectation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EncadrantController extends Controller
 {
@@ -14,12 +15,14 @@ class EncadrantController extends Controller
     public function index()
     {
         $encadrants = Encadrant::join('structures_affectations', 'encadrants.structuresAffectation_id', '=', 'structures_affectations.id')
-            ->orderBy('structures_affectations.structuresIAP_id')
-            ->orderBy('parent_id')
-            ->orderBy('structuresAffectation_id')
-            ->orderBy('function')
-            ->orderBy('last_name')
-            ->orderBy('first_name')
+            ->join('structures_i_a_p_s', 'structures_affectations.structuresIAP_id', '=', 'structures_i_a_p_s.id')
+            ->orderBy('structures_i_a_p_s.id')
+            ->orderBy('structures_affectations.parent_id')
+            ->orderBy('encadrants.structuresAffectation_id')
+            ->orderBy('encadrants.function')
+            ->orderBy('encadrants.last_name')
+            ->orderBy('encadrants.first_name')
+            ->select('encadrants.*')
             ->paginate(10);
         $structuresAffectations = StructuresAffectation::orderBy('structuresIAP_id')->orderby('type')->orderBy('name')->get();
         return view('superadmin.encadrants', compact('encadrants', 'structuresAffectations'));
@@ -46,6 +49,7 @@ class EncadrantController extends Controller
                 'regex:/^[a-zA-Z0-9]+$/',
                 'max:255',
             ],
+            'fibre_sh' => 'required|unique:encadrants,fibre_sh',
             'function' => 'required',
             'email' => 'required|email|max:255',
             'structuresAffectation_id' => 'required|exists:structures_affectations,id',
@@ -68,13 +72,16 @@ class EncadrantController extends Controller
      */
     public function edit(Encadrant $encadrant)
     {
+
         $encadrants = Encadrant::join('structures_affectations', 'encadrants.structuresAffectation_id', '=', 'structures_affectations.id')
-            ->orderBy('structures_affectations.structuresIAP_id')
-            ->orderBy('parent_id')
-            ->orderBy('structuresAffectation_id')
-            ->orderBy('function')
-            ->orderBy('last_name')
-            ->orderBy('first_name')
+            ->join('structures_i_a_p_s', 'structures_affectations.structuresIAP_id', '=', 'structures_i_a_p_s.id')
+            ->orderBy('structures_i_a_p_s.id')
+            ->orderBy('structures_affectations.parent_id')
+            ->orderBy('encadrants.structuresAffectation_id')
+            ->orderBy('encadrants.function')
+            ->orderBy('encadrants.last_name')
+            ->orderBy('encadrants.first_name')
+            ->select('encadrants.*')
             ->paginate(10);
         $structuresAffectations = StructuresAffectation::orderBy('structuresIAP_id')->orderby('type')->orderBy('name')->get();
         return view('superadmin.encadrants', compact('encadrants', 'structuresAffectations', 'encadrant'));
@@ -93,6 +100,7 @@ class EncadrantController extends Controller
                 'regex:/^[a-zA-Z0-9]+$/',
                 'max:255',
             ],
+            'fibre_sh' => 'required|unique:encadrants,fibre_sh,' . $encadrant->id,
             'function' => 'required',
             'email' => 'required|email|max:255',
             'structuresAffectation_id' => 'required|exists:structures_affectations,id',

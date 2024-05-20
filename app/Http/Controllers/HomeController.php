@@ -16,7 +16,7 @@ class HomeController extends Controller
     }
     public function admin()
     {
-        return view('admin.index');
+        return view('admin.statistiques');
     }
     public function user()
     {
