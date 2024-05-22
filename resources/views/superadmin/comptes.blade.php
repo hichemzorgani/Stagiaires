@@ -9,62 +9,58 @@
         <form action="{{ route('comptes.update', $compte->id) }}" method="POST">
             @csrf
             @method('PUT')
-    
             <div class="row">
                 <div class="col-6">
-                    
-    
-                    <div class="mb-3">
-                        <label for="structuresIAP_id" class="h6">Structure IAP</label>
-                        <select name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            @foreach ($structuresIAPs as $structuresIAP)
-                            <option value="{{ $structuresIAP->id }}" {{ $compte->structuresIAP_id == $structuresIAP->id ? 'selected' : '' }}>{{ $structuresIAP->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-    
-                    <div class="mb-3">
-                        <p class="h6">User Type</p>
-                        <select name="usertype" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            <option value="Superadmin" {{ $compte->usertype == 'Superadmin' ? 'selected' : '' }}>Superadmin</option>
-                            <option value="Subadmin" {{ $compte->usertype == 'Subadmin' ? 'selected' : '' }}>Subadmin</option>
-                            <option value="Admin" {{ $compte->usertype == 'Admin' ? 'selected' : '' }}>Admin</option>
-                            <option value="User" {{ $compte->usertype == 'User' ? 'selected' : '' }}>User</option>
-                            <option value="Security" {{ $compte->usertype == 'Security' ? 'selected' : '' }}>Security</option>
-                        </select>
-                    </div>
-    
-                    <p class="h6">Username</p>
-                    <div class="input-group input-group-sm mb-3">
-                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $compte->name) }}">
-                        @error('name')
-                        <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                    <button type="submit" class="btn btn-sm btn-primary">
-                        <i class="bi bi-person-check-fill"></i> Enregistrer
-                    </button> 
-                    <button type="button" class="btn btn-sm btn-warning" onclick="goBack()"><i class="bi bi-x-lg"> Annuler</i></button>
+                    <label for="structuresIAP_id" class="h6  ">Structure IAP</label>
+                    <select name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        @foreach ($structuresIAPs as $structuresIAP)
+                        <option value="{{ $structuresIAP->id }}" {{ $compte->structuresIAP_id == $structuresIAP->id ? 'selected' : '' }}>{{ $structuresIAP->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                
                 <div class="col-6">
-                    <p style="margin-top:2px;" class="h6">Email</p>
+                    <p class="h6  ">Email</p>
                     <div class="input-group input-group-sm mb-3">
                         <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $compte->email) }}">
                         @error('email')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-    
-                    <p class="h6">Nouveau mot de passe</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p class="h6  ">User Type</p>
+                    <select name="usertype" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option value="Superadmin" {{ $compte->usertype == 'Superadmin' ? 'selected' : '' }}>Superadmin</option>
+                        <option value="Subadmin" {{ $compte->usertype == 'Subadmin' ? 'selected' : '' }}>Subadmin</option>
+                        <option value="Admin" {{ $compte->usertype == 'Admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="User" {{ $compte->usertype == 'User' ? 'selected' : '' }}>User</option>
+                        <option value="Security" {{ $compte->usertype == 'Security' ? 'selected' : '' }}>Security</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <p class="h6  ">Nouveau mot de passe</p>
                     <div class="input-group input-group-sm mb-3">
                         <input type="password" name="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required>
                         @error('password')
                         <small class="text-danger">{{$message}}</small>               
                         @enderror
                     </div>
-    
-                    <p class="h6">Confirmer le nouveau mot de passe</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p class="h6  ">Username</p>
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $compte->name) }}">
+                        @error('name')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-6">
+                    <p class="h6  ">Confirmer le nouveau mot de passe</p>
                     <div class="input-group input-group-sm mb-3">
                         <input type="password" name="password_confirmation" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required>
                         @error('password_confirmation')
@@ -72,7 +68,12 @@
                         @enderror
                     </div>
                 </div>
-            </div>
+            </div>            
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="bi bi-person-check-fill"></i> Enregistrer
+                    </button> 
+                    <button type="button" class="btn btn-sm btn-warning" onclick="goBack()"><i class="bi bi-x-lg"> Annuler</i></button>
+                
         </form>
     </div>
         
@@ -86,17 +87,28 @@
     <form action="{{ route('comptes.store') }}" method="POST">
         @csrf
         
-
         <div class="row">
             <div class="col-6">
-                <p class="h6">Structure IAP</p>
+                <p class="h6  ">Structure IAP</p>
                 <select name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example">
                     @foreach ($structuresIAPs as $structuresIAP)
                     <option value="{{ $structuresIAP->id }}">{{ $structuresIAP->name }}</option>
                     @endforeach
                 </select>
-                
-                <p style="margin-top: 16px;" class="h6">User Type</p>
+            </div>
+            <div class="col-6">
+                <p class="h6  ">Email</p>
+                <div class="input-group input-group-sm mb-3">
+                    <input type="email" name="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required value="{{old('email')}}">
+                    @error('email')
+                    <small class="text-danger">{{$message}}</small>               
+                    @enderror
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <p class="h6   ">User Type</p>
                 <select name="usertype" class="form-select form-select-sm" aria-label=".form-select-sm example">
                     <option value="Superadmin">Superadmin</option>
                     <option value="Subadmin">Subadmin</option>
@@ -104,36 +116,29 @@
                     <option value="User">User</option>
                     <option value="Security">Security</option>
                 </select>
-
-                <p style="margin-top: 16px;" class="h6">Username</p>
-                <div class="input-group input-group-sm mb-3">
-                    <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required value="{{old('name')}}">
-                    @error('name')
-                    <small class="text-danger">{{$message}}</small>               
-                    @enderror
-                </div>
-                <button type="submit" class="btn btn-sm btn-success" name="ajouter">
-                    <i class="bi bi-person-plus-fill"></i> Ajouter
-                </button>
             </div>
             <div class="col-6">
-                <p class="h6">Email</p>
-                <div class="input-group input-group-sm mb-3">
-                    <input type="email" name="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required value="{{old('email')}}">
-                    @error('email')
-                    <small class="text-danger">{{$message}}</small>               
-                    @enderror
-                </div>
-
-                <p class="h6">Mot de passe</p>
+                <p class="h6 ">Mot de passe</p>
                 <div class="input-group input-group-sm mb-3">
                     <input type="password" name="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required>
                     @error('password')
                     <small class="text-danger">{{$message}}</small>               
                     @enderror
                 </div>
-
-                <p class="h6">Confirmer le mot de passe</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <p class="h6   ">Username</p>
+                <div class="input-group input-group-sm mb-3">
+                    <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required value="{{old('name')}}">
+                    @error('name')
+                    <small class="text-danger">{{$message}}</small>               
+                    @enderror
+                </div>
+            </div>
+            <div class="col-6">
+                <p class="h6  ">Confirmer le mot de passe</p>
                 <div class="input-group input-group-sm mb-3">
                     <input type="password" name="password_confirmation" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required>
                     @error('password_confirmation')
@@ -142,6 +147,11 @@
                 </div>
             </div>
         </div>
+                
+                <button type="submit" class="btn btn-sm btn-success" name="ajouter">
+                    <i class="bi bi-person-plus-fill"></i> Ajouter
+                </button>
+        
     </form>
 </div>
 

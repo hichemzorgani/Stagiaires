@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('etablissements', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->enum('type', ['Univesite', 'Centre de formation', 'Institut', 'Ecole']);
             $table->enum('wilaya', [
                 'Adrar', 'Chlef', 'Laghouat', 'Oum El Bouaghi', 'Batna', 'Bejaia', 'Biskra', 'Bechar', 'Blida',
                 'Bouira', 'Tamanrasset', 'Tebessa', 'Tlemcen', 'Tiaret', 'Tizi Ouzou', 'Alger', 'Djelfa', 'Jijel',

@@ -8,19 +8,33 @@
              
         <div id="add_edit_div">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <form action="{{ route('encadrants.update',$encadrant->id) }}" method="POST">
                     @csrf 
                     @method('PUT')
                     <div class="form-group">
-                        <p class="h6">Structures D'Affectation</p>
-                        <select name="structuresAffectation_id" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            @foreach ($structuresAffectations as $structuresAffectation)
-                            <option value="{{$structuresAffectation->id}}" {{ old('structuresAffectation_id', $encadrant->structuresAffectation_id) == $structuresAffectation->id ? 'selected' : '' }}>
-                                {{$structuresAffectation->name}} ({{$structuresAffectation->structuresIAP->name}})
-                            </option>
-                            @endforeach
-                        </select>
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="h6">Structures IAP</p>
+                                <select id="structuresIAP_id" name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required onchange="selectStructureAff()">
+                                    @foreach ($structuresIAPs as $structuresIAP)
+                                    <option value="{{$structuresIAP->id}}" {{ old('structuresIAP_id', $encadrant->structuresIAP_id) == $structuresIAP->id ? 'selected' : '' }}>
+                                        {{$structuresIAP->name}}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <p class="h6">Structures D'Affectation</p>
+                                    <select id="structuresAffectation_id" name="structuresAffectation_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                                        @foreach ($structuresAffectations as $structuresAffectation)
+                                        <option value="{{$structuresAffectation->id}}" {{ old('structuresAffectation_id', $encadrant->structuresAffectation_id) == $structuresAffectation->id ? 'selected' : '' }}>
+                                            {{$structuresAffectation->name}} ({{$structuresAffectation->structuresIAP->name}})
+                                        </option>
+                                        @endforeach
+                                    </select>
+                            </div>
+                        </div>              
                     </div>
                     <div style="margin-top: 4px" class="row">
                         <div class="col-6">
@@ -52,7 +66,7 @@
                     <button type="button" class="btn btn-sm btn-warning" onclick="goBack()"><i class="bi bi-x-lg"> Annuler</i></button>
                 </div>
                 </div>
-                <div class="col-md-6" >
+                <div class="col-md-5" >
                     <div  class="form-group row">
                         <div class="col-6">
                             <p class="h6">Matricule</p>
@@ -104,18 +118,34 @@
                
         <div id="add_edit_div">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <form action="{{ route('encadrants.store') }}" method="POST">
                     @csrf 
                     <div class="form-group">
-                        <p class="h6">Structures D'Affectation</p>
-                        <select name="structuresAffectation_id" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            @foreach ($structuresAffectations as $structuresAffectation)
-                            <option value="{{$structuresAffectation->id}}">
-                                {{$structuresAffectation->name}} ({{$structuresAffectation->structuresIAP->name}})
-                            </option>
-                            @endforeach
-                        </select>
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="h6">Structures IAP</p>
+                                <select id="structuresIAP_id" name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required onchange="selectStructureAff()">
+                                    <option selected disabled value="">-- Choisissez une structure IAP --</option>
+                                    @foreach ($structuresIAPs as $structuresIAP)
+                                    <option value="{{$structuresIAP->id}}">
+                                        {{$structuresIAP->name}}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <p class="h6">Structures d'affectation</p>
+                                <select id="structuresAffectation_id" name="structuresAffectation_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                                    <option selected disabled value="">-- Choisissez une structure d'affectation --</option>
+                                    @foreach ($structuresAffectations as $structuresAffectation)
+                                    <option value="{{$structuresAffectation->id}}">
+                                        {{$structuresAffectation->name}} ({{$structuresAffectation->structuresIAP->name}})
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>   
                     </div>
                     <div style="margin-top: 4px" class="row">
                         <div class="col-6">
@@ -146,7 +176,7 @@
                     </button>
                 </div>
                 </div>
-                <div class="col-md-6" >
+                <div class="col-md-5" >
                     <div  class="form-group row">
                         <div class="col-6">
                             <p class="h6">Matricule</p>
@@ -202,18 +232,39 @@
                     <h1>Liste des encadrants</h1>
                 </div>
             </div>
-            <form  method="POST" action="{{ route('encadrants.searchEncadrant')}}">
+            <form method="POST" action="{{ route('encadrants.searchEncadrant') }}">
                 @csrf
-            <div class="col d-flex">
-                <div style="width: 350px">
-                    <input name="name" placeholder="Nom" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-sm btn-warning mx-1">
-                        <i class="bi bi-search"></i> Rechercher
+                <div class="col d-flex">
+                    <select style="width: 210px" id="type_recherche" class="form-select form-select-sm flex-grow-1 me-2" aria-label=".form-select-sm example" required onchange="rechercheEncadrant()">
+                        <option selected disabled value="">-- Choisissez une option --</option>
+                        <option value="structure">Par structure IAP</option>
+                        <option value="structureAffectation">Par structure d'affectation</option>
+                        <option value="nameee">Par nom</option>             
+                    </select> 
+                    <div style="width: 450px">
+                        <select disabled id="decoy" class="form-select form-select-sm" aria-label=".form-select-sm example" required></select>
+                        <select hidden disabled id="structure" name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                            <option selected value="">-- Choisissez une structure IAP --</option>
+                            @foreach ($structuresIAPs as $structuresIAP)
+                                <option value="{{ $structuresIAP->id }}">
+                                    {{ $structuresIAP->name }} 
+                                </option>
+                            @endforeach
+                        </select> 
+                        <select hidden disabled id="structureAffectation" name="structuresAffectation_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                            <option selected value="">-- Choisissez une structure d'affectation --</option>
+                            @foreach ($structuresAffectations as $structureAffectation)
+                                <option value="{{ $structureAffectation->id }}">
+                                    {{ $structureAffectation->name }} ({{ $structureAffectation->structuresIAP->name }})
+                                </option>
+                            @endforeach
+                        </select>         
+                        <input hidden disabled name="name" id="nameee" placeholder="Nom" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
+                    </div>
+                    <button type="submit" name="recherche" class="btn btn-sm btn-warning mx-1">
+                        <i class="bi bi-search"></i> 
                     </button>
-                </div>         
-            </div>
+                </div>
             </form>
         </div>
    
@@ -226,7 +277,6 @@
                 <th>Email</th>
                 <th>N° Fibre</th>
                 <th>Struct. D'Affectation</th>
-                <th>Direction / Sous-direction</th>
                 <th>Struct. IAP</th>
                 <th style="text-align: center;">Options</th>
             </tr>   
@@ -237,8 +287,7 @@
                 <td>{{$encadrant->registration_id}}</td>
                 <td>{{$encadrant->email}}</td>
                 <td>{{$encadrant->fibre_sh}}</td>
-                <td>{{$encadrant->structureAffectation->name}}</td>  
-                <td>{{$encadrant->structureAffectation->parent->name ?? ''}}</td>        
+                <td>{{$encadrant->structureAffectation->name}}</td>          
                 <td>{{$encadrant->structureAffectation->structuresIAP->name}}</td>
                 <td>
                     <div class="d-flex justify-content-center align-items-center">
@@ -287,3 +336,21 @@
     </div>
     @endif
 </x-master>
+
+<script>
+    function selectStructureAff() {
+        var structureIAP = document.getElementById('structuresIAP_id').value;     
+        var structuresAffectations = @json($structuresAffectations);
+        var select = document.getElementById('structuresAffectation_id');
+        select.innerHTML = '<option selected disabled value="">-- Choisissez une structure d\'affectation --</option>';
+        structuresAffectations.forEach(structureAffectation => {
+            if(structureAffectation.structuresIAP_id == structureIAP){
+                var option = document.createElement('option');
+                option.value = structureAffectation.id;
+                option.text = structureAffectation.name;
+                select.appendChild(option);
+            }
+        });  
+    }
+        
+</script>

@@ -31,12 +31,16 @@ class EtablissementController extends Controller
     {
         $name = $request->name;
         $wilaya = $request->wilaya;
+        $type = $request->type;
         $request->validate([
             'name' => 'required|string|unique:etablissements,name',
+            'wilaya' => 'required',
+            'type' => 'required|string|in:Univesite,Centre de formation,Institut,Ecole',
         ]);
         Etablissement::create([
             'name' => $name,
             'wilaya' => $wilaya,
+            'type' => $type,
         ]);
         return to_route('etablissements.index')->with('success', 'Établissement ajoutée.');
     }
@@ -66,6 +70,7 @@ class EtablissementController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|unique:etablissements,name,' . $etablissement->id,
             'wilaya' => 'required',
+            'type' => 'required|string|in:Univesite,Centre de formation,Institut,Ecole',
         ]);
 
         $etablissement->update($validatedData);

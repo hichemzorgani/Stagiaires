@@ -9,21 +9,29 @@
                 <form action="{{ route('structuresIAP.update',$structuresIAP->id) }}" method="POST">
                     @csrf 
                     @method('PUT')
-                    <div class="form-group">
-                        <p class="h5">Nom</p>
-                        <div class="input-group input-group-sm mb-3">
-                        <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" value="{{old('name',$structuresIAP->name)}}" required>
-                        @error('name')
-                            <small class="text-danger">{{$message}}</small>               
-                        @enderror    
+                    <p class="h6">Nom</p>
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="form-group">                              
+                                <div class="input-group input-group-sm mb-3">
+                                <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" value="{{old('name',$structuresIAP->name)}}" required>
+                                @error('name')
+                                    <small class="text-danger">{{$message}}</small>               
+                                @enderror    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">                  
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-house-check-fill"></i> Enregistrer
+                                </button>
+                                <button type="button" class="btn btn-sm btn-warning" onclick="goBack()"><i class="bi bi-x-lg"></i></button>
+                            </div>  
                         </div>
                     </div>
-                    <div class="form-group">                  
-                        <button type="submit" class="btn btn-sm btn-primary">
-                            <i class="bi bi-house-check-fill"></i> Enregistrer
-                        </button>
-                        <button type="button" class="btn btn-sm btn-warning" onclick="goBack()"><i class="bi bi-x-lg"> Annuler</i></button>
-                    </div>    
+                    
+                      
                 </form>
             </div>
             @else
@@ -34,18 +42,26 @@
                 <div id="add_edit_div"> 
                 <form action="{{ route('structuresIAP.store') }}" method="POST">
                     @csrf 
-                    <div class="form-group">
-                        <p class="h5">Nom</p>
-                        <div class="input-group input-group-sm mb-3">
-                            <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required value="{{old('name')}}">
-                        @error('name')
-                            <small class="text-danger">{{$message}}</small>               
-                        @enderror
+                    <p class="h6">Nom</p>
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="form-group">                                
+                                <div class="input-group input-group-sm mb-3">
+                                    <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required value="{{old('name')}}">
+                                @error('name')
+                                    <small class="text-danger">{{$message}}</small>               
+                                @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-sm btn-success" name="ajouter"><i class="bi bi-house-add-fill"></i> Ajouter</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-sm btn-success" name="ajouter"><i class="bi bi-house-add-fill"></i> Ajouter</button>
-                    </div>    
+                    
+                        
                 </form>
             </div>
             @endif

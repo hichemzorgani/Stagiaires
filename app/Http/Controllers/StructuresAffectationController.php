@@ -105,6 +105,9 @@ class StructuresAffectationController extends Controller
             'structuresIAP_id' => 'required|exists:structures_i_a_p_s,id',
         ]);
         $validatedData['year'] = date('Y');
+        if ($request->input('type') === 'Direction' || $request->input('type') === 'Sous-direction') {
+            $validatedData['parent_id'] = null;
+        }
         $structuresAffectation->fill($validatedData)->save();
         return to_route('structuresAffectation.index')->with('success', 'Modification effectuée avec succès');
     }

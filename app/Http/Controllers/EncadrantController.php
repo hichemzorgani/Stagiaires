@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Encadrant;
 use App\Models\StructuresAffectation;
+use App\Models\StructuresIAP;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,6 +15,7 @@ class EncadrantController extends Controller
      */
     public function index()
     {
+        $structuresIAPs = StructuresIAP::all();
         $encadrants = Encadrant::join('structures_affectations', 'encadrants.structuresAffectation_id', '=', 'structures_affectations.id')
             ->join('structures_i_a_p_s', 'structures_affectations.structuresIAP_id', '=', 'structures_i_a_p_s.id')
             ->orderBy('structures_i_a_p_s.id')
@@ -25,7 +27,7 @@ class EncadrantController extends Controller
             ->select('encadrants.*')
             ->paginate(10);
         $structuresAffectations = StructuresAffectation::orderBy('structuresIAP_id')->orderby('type')->orderBy('name')->get();
-        return view('superadmin.encadrants', compact('encadrants', 'structuresAffectations'));
+        return view('superadmin.encadrants', compact('encadrants', 'structuresAffectations', 'structuresIAPs'));
     }
 
     /**
@@ -72,7 +74,7 @@ class EncadrantController extends Controller
      */
     public function edit(Encadrant $encadrant)
     {
-
+        $structuresIAPs = StructuresIAP::all();
         $encadrants = Encadrant::join('structures_affectations', 'encadrants.structuresAffectation_id', '=', 'structures_affectations.id')
             ->join('structures_i_a_p_s', 'structures_affectations.structuresIAP_id', '=', 'structures_i_a_p_s.id')
             ->orderBy('structures_i_a_p_s.id')
@@ -84,7 +86,7 @@ class EncadrantController extends Controller
             ->select('encadrants.*')
             ->paginate(10);
         $structuresAffectations = StructuresAffectation::orderBy('structuresIAP_id')->orderby('type')->orderBy('name')->get();
-        return view('superadmin.encadrants', compact('encadrants', 'structuresAffectations', 'encadrant'));
+        return view('superadmin.encadrants', compact('encadrants', 'structuresAffectations', 'encadrant', 'structuresIAPs'));
     }
 
     /**

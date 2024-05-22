@@ -7,6 +7,7 @@ use App\Http\Controllers\EncadrantController;
 use App\Http\Controllers\EtablissementController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SignataireController;
 use App\Http\Controllers\SpecialiteController;
 use App\Http\Controllers\StageController;
 use App\Http\Controllers\StagiaireController;
@@ -24,7 +25,36 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'subadmin'])->prefix('subadmin')->group(function () {
     Route::get('index', [HomeController::class, 'subadmin'])->name('subadmin');
+
     Route::get('domaines', [SubadminController::class, 'domaines'])->name('domaines');
+    Route::match(['get', 'post'], 'searchDomaine2', [SearchController::class, 'searchDomaine2'])->name('domaines.searchDomaine2');
+
+    Route::get('structuresIAP', [SubadminController::class, 'structuresIAP'])->name('structuresIAP');
+    Route::match(['get', 'post'], 'searchIAP2', [SearchController::class, 'searchIAP2'])->name('structuresIAP.searchIAP2');
+
+    Route::get('structuresAffectation', [SubadminController::class, 'structuresAffectation'])->name('structuresAffectation');
+    Route::match(['get', 'post'], '/search-affectation', [SearchController::class, 'searchAffectation2'])->name('structuresAffectation.searchAffectation2');
+
+    Route::get('etablissements', [SubadminController::class, 'etablissements'])->name('etablissements');
+    Route::match(['get', 'post'], 'searchEtablissement2', [SearchController::class, 'searchEtablissement2'])->name('etablissements.searchEtablissement2');
+
+    Route::get('encadrants', [SubadminController::class, 'encadrants'])->name('encadrants');
+    Route::match(['get', 'post'], 'searchEncadrant2', [SearchController::class, 'searchEncadrant2'])->name('encadrants.searchEncadrant2');
+
+    Route::get('specialites', [SubadminController::class, 'specialites'])->name('specialites');
+    Route::match(['get', 'post'], 'searchSpecialite2', [SearchController::class, 'searchSpecialite2'])->name('specialites.searchSpecialite2');
+
+    Route::get('stagiaires', [SubadminController::class, 'stagiaires'])->name('stagiaires');
+    Route::match(['get', 'post'], 'searchStagiaire', [SearchController::class, 'searchStagiaire'])->name('stagiaires.searchStagiaire');
+
+    Route::get('signataires', [SubadminController::class, 'signataires'])->name('signataires');
+    Route::match(['get', 'post'], 'searchSignataire2', [SearchController::class, 'searchSignataire2'])->name('signataires.searchSignataire2');
+
+    Route::get('stages', [SubadminController::class, 'stages'])->name('stages');
+    Route::match(['get', 'post'], 'searchStage', [SearchController::class, 'searchStage'])->name('stages.searchStage');
+
+    Route::get('rechercheStage', [SubadminController::class, 'rechercheStage'])->name('rechercheStage');
+    Route::match(['get', 'post'], 'searchStage2', [SearchController::class, 'searchStage2'])->name('stages.searchStage2');
 });
 
 
@@ -95,4 +125,7 @@ Route::middleware(['auth', 'superadmin'])->prefix('superadmin')->group(function 
 
     Route::resource('specialites', SpecialiteController::class);
     Route::match(['get', 'post'], 'searchSpecialite', [SearchController::class, 'searchSpecialite'])->name('specialites.searchSpecialite');
+
+    Route::resource('signataires', SignataireController::class);
+    Route::match(['get', 'post'], 'searchSignataire', [SearchController::class, 'searchSignataire'])->name('signataires.searchSignataire');
 });

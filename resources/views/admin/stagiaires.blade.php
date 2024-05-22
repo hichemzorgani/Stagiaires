@@ -86,7 +86,7 @@
                     <th>N° de tel</th>
                     <th>Email</th>
                     {{--<th>Durée du stage</th>--}}
-                  <th>Date début</th>
+                    <th>Date début</th>
                     <th>Date fin</th>
                     <th>Jours de réception</th>
         

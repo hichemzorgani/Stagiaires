@@ -9,9 +9,11 @@
     <form action="{{ route('etablissements.update', $etablissement->id) }}" method="POST">
         @csrf
         @method('PUT')
+        <div class="row">
+        <div class="col-2">
         <div class="form-group">
             <p class="h6">Wilaya </p>
-            <select class="form-control" aria-label=".form-select-sm example" name="wilaya">
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="wilaya">
                 <option value="Adrar" {{ $etablissement->wilaya == 'Adrar' ? 'selected' : '' }}>01. Adrar</option>
 <option value="Chlef" {{ $etablissement->wilaya == 'Chlef' ? 'selected' : '' }}>02. Chlef</option>
 <option value="Laghouat" {{ $etablissement->wilaya == 'Laghouat' ? 'selected' : '' }}>03. Laghouat</option>
@@ -72,6 +74,19 @@
 <option value="El Meniaa" {{ $etablissement->wilaya == 'El Meniaa' ? 'selected' : '' }}>58. El Meniaa</option>
             </select>
         </div>
+        </div>
+        <div class="col-2">
+            <div class="form-group">
+                <p class="h6">Type</p>
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="type">
+                    <option value="Univesite" {{ $etablissement->type == 'Univesite' ? 'selected' : '' }}>Univesité</option>
+                    <option value="Centre de formation" {{ $etablissement->type == 'Centre de formation' ? 'selected' : '' }}>Centre de formation</option>
+                    <option value="Institut" {{ $etablissement->type == 'Institut' ? 'selected' : '' }}>Institut</option>
+                    <option value="Ecole" {{ $etablissement->type == 'Ecole' ? 'selected' : '' }}>École</option>                         
+                </select>
+            </div>
+        </div>
+        <div class="col-6">
         <div class="form-group">
             <p class="h6">Nom</p>
             <div class="input-group input-group-sm mb-3">
@@ -80,13 +95,17 @@
                     <small class="text-danger">{{ $message }}</small>               
                 @enderror
             </div>
+        </div>        
         </div>
-        <div class="form-group">
+        <div class="col-2">
+        <div class="form-group" style="margin-top: 26px">
             <button type="submit" class="btn btn-sm btn-primary">
                 <i class="bi bi-building-check"></i> Enregistrer
             </button>                
-            <button type="button" class="btn btn-sm btn-warning" onclick="goBack()"><i class="bi bi-x-lg"></i> Annuler</button>
-        </div>    
+            <button type="button" class="btn btn-sm btn-warning" onclick="goBack()"><i class="bi bi-x-lg"></i></button>
+        </div> 
+        </div> 
+    </div>  
     </form>
     </div>
     @else
@@ -97,83 +116,103 @@
     <div id="add_edit_div">
     <form action="{{ route('etablissements.store') }}" method="POST">
         @csrf 
-        <div class="form-group">
-            <p class="h6">Wilaya </p>
-            <select class="form-control" aria-label=".form-select-sm example" name="wilaya">
-                <option value="Adrar">01. Adrar</option>
-                <option value="Chlef">02. Chlef</option>
-                <option value="Laghouat">03. Laghouat </option>
-                <option value="Oum El Bouaghi">04. Oum El Bouaghi</option>
-                <option value="Batna">05. Batna</option>
-                <option value="Bejaia">06. Bejaïa</option>
-                <option value="Biskra">07. Biskra</option>
-                <option value="Bechar">08. Béchar</option>
-                <option value="Blida">09. Blida</option>
-                <option value="Bouira">10. Bouira</option>
-                <option value="Tamanrasset">11. Tamanrasset </option>
-                <option value="Tebessa">12. Tebessa</option>
-                <option value="Tlemcen">13. Tlemcen</option>
-                <option value="Tiaret">14. Tiaret</option>
-                <option value="Tizi Ouzou">15. Tizi Ouzou</option>
-                <option value="Alger">16. Alger</option>
-                <option value="Djelfa">17. Djelfa</option>
-                <option value="Jijel">18. Jijel</option>
-                <option value="Setif">19. Sétif</option>
-                <option value="Saida">20. Saïda</option>
-                <option value="Skikda">21. Skikda</option>
-                <option value="Sidi Bel Abbes">22. Sidi Bel Abbès</option>
-                <option value="Annaba">23. Annaba</option>
-                <option value="Guelma">24. Guelma</option>
-                <option value="Constantine">25. Constantine</option>
-                <option value="Medea">26. Médéa</option>
-                <option value="Mostaganem">27. Mostaganem</option>
-                <option value="MSila">28. M'Sila </option>
-                <option value="Mascara">29. Mascara</option>
-                <option value="Ouargla">30. Ouargla</option>
-                <option value="Oran">31. Oran</option>
-                <option value="El Bayadh">32. El Bayadh</option>
-                <option value="Illizi">33. Illizi</option>
-                <option value="Bordj Bou Arreridj">34. Bordj Bou Arreridj</option>
-                <option value="Boumerdes">35. Boumerdès</option>
-                <option value="El Tarf">36. El Tarf</option>
-                <option value="Tindouf">37. Tindouf</option>
-                <option value="Tissemsilt">38. Tissemsilt</option>
-                <option value="El Oued">39. El Oued</option>
-                <option value="Khenchela">40. Khenchela</option>
-                <option value="Souk Ahras">41. Souk Ahras</option>
-                <option value="Tipaza">42. Tipaza</option>
-                <option value="Mila">43. Mila</option>
-                <option value="Ain Defla">44. Aïn Defla</option>
-                <option value="Naama">45. Naâma</option>
-                <option value="Ain Temouchent">46. Aïn Témouchent</option>
-                <option value="Ghardaia">47. Ghardaia</option>
-                <option value="Relizane">48. Relizane</option>
-                <option value="Timimoun">49. Timimoun</option>
-                <option value="Bordj Badji Mokhtar">50. Bordj Badji Mokhtar</option>
-                <option value="Ouled Djellal">51. Ouled Djellal</option>
-                <option value="Beni Abbes">52. Béni Abbès </option>
-                <option value="In Salah">53. In Salah</option>
-                <option value="In Guezzam">54. In Guezzam</option>
-                <option value="Touggourt">55. Touggourt</option>
-                <option value="Djanet">56. Djanet</option>
-                <option value="El MGhair">57. El M'Ghair</option>
-                <option value="El Meniaa">58. El Meniaa</option>
-              </select>
-        </div>
-        <div class="form-group">
-            <p class="h6">Nom</p>
-            <div class="input-group input-group-sm mb-3">
-                <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required value="{{old('name')}}">
-                @error('name')
-                    <small class="text-danger">{{$message}}</small>               
-                @enderror
+        <div class="row">
+            <div class="col-2">
+                <div class="form-group">
+                    <p class="h6">Wilaya </p>
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="wilaya">
+                        <option value="Adrar">01. Adrar</option>
+                        <option value="Chlef">02. Chlef</option>
+                        <option value="Laghouat">03. Laghouat </option>
+                        <option value="Oum El Bouaghi">04. Oum El Bouaghi</option>
+                        <option value="Batna">05. Batna</option>
+                        <option value="Bejaia">06. Bejaïa</option>
+                        <option value="Biskra">07. Biskra</option>
+                        <option value="Bechar">08. Béchar</option>
+                        <option value="Blida">09. Blida</option>
+                        <option value="Bouira">10. Bouira</option>
+                        <option value="Tamanrasset">11. Tamanrasset </option>
+                        <option value="Tebessa">12. Tebessa</option>
+                        <option value="Tlemcen">13. Tlemcen</option>
+                        <option value="Tiaret">14. Tiaret</option>
+                        <option value="Tizi Ouzou">15. Tizi Ouzou</option>
+                        <option value="Alger">16. Alger</option>
+                        <option value="Djelfa">17. Djelfa</option>
+                        <option value="Jijel">18. Jijel</option>
+                        <option value="Setif">19. Sétif</option>
+                        <option value="Saida">20. Saïda</option>
+                        <option value="Skikda">21. Skikda</option>
+                        <option value="Sidi Bel Abbes">22. Sidi Bel Abbès</option>
+                        <option value="Annaba">23. Annaba</option>
+                        <option value="Guelma">24. Guelma</option>
+                        <option value="Constantine">25. Constantine</option>
+                        <option value="Medea">26. Médéa</option>
+                        <option value="Mostaganem">27. Mostaganem</option>
+                        <option value="MSila">28. M'Sila </option>
+                        <option value="Mascara">29. Mascara</option>
+                        <option value="Ouargla">30. Ouargla</option>
+                        <option value="Oran">31. Oran</option>
+                        <option value="El Bayadh">32. El Bayadh</option>
+                        <option value="Illizi">33. Illizi</option>
+                        <option value="Bordj Bou Arreridj">34. Bordj Bou Arreridj</option>
+                        <option value="Boumerdes">35. Boumerdès</option>
+                        <option value="El Tarf">36. El Tarf</option>
+                        <option value="Tindouf">37. Tindouf</option>
+                        <option value="Tissemsilt">38. Tissemsilt</option>
+                        <option value="El Oued">39. El Oued</option>
+                        <option value="Khenchela">40. Khenchela</option>
+                        <option value="Souk Ahras">41. Souk Ahras</option>
+                        <option value="Tipaza">42. Tipaza</option>
+                        <option value="Mila">43. Mila</option>
+                        <option value="Ain Defla">44. Aïn Defla</option>
+                        <option value="Naama">45. Naâma</option>
+                        <option value="Ain Temouchent">46. Aïn Témouchent</option>
+                        <option value="Ghardaia">47. Ghardaia</option>
+                        <option value="Relizane">48. Relizane</option>
+                        <option value="Timimoun">49. Timimoun</option>
+                        <option value="Bordj Badji Mokhtar">50. Bordj Badji Mokhtar</option>
+                        <option value="Ouled Djellal">51. Ouled Djellal</option>
+                        <option value="Beni Abbes">52. Béni Abbès </option>
+                        <option value="In Salah">53. In Salah</option>
+                        <option value="In Guezzam">54. In Guezzam</option>
+                        <option value="Touggourt">55. Touggourt</option>
+                        <option value="Djanet">56. Djanet</option>
+                        <option value="El MGhair">57. El M'Ghair</option>
+                        <option value="El Meniaa">58. El Meniaa</option>
+                      </select>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-sm btn-success" name="ajouter">
-                <i class="bi bi-building-add"></i> Ajouter
-            </button>
-        </div>    
+            <div class="col-2">
+                <div class="form-group">
+                    <p class="h6">Type</p>
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="type">
+                        $table->enum('type', ['Univesite', 'Centre de formation', 'Institut', 'Ecole']);
+                        <option value="Univesite">Univesité</option>
+                        <option value="Centre de formation">Centre de formation</option>
+                        <option value="Institut">Institut</option>
+                        <option value="Ecole">École</option>                         
+                    </select>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <p class="h6">Nom</p>
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" autocomplete="off" required value="{{old('name')}}">
+                        @error('name')
+                            <small class="text-danger">{{$message}}</small>               
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-success" name="ajouter" style="margin-top: 26px">
+                        <i class="bi bi-building-add"></i> Ajouter
+                    </button>
+                </div>
+            </div>
+        </div>     
     </form>
     </div>
     @endif
@@ -192,7 +231,7 @@
                 @csrf
             <div class="col d-flex">
                 <div style="width: 350px">
-                    <input name="name" placeholder=" Étbalissement" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
+                    <input name="name" placeholder="Étbalissement" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
                 </div>
                 <div>
                     <button type="submit" class="btn btn-sm btn-warning mx-1">
@@ -207,12 +246,14 @@
 <table class="table table-sm table-dark table-bordered table-striped table-hover">
         <tr>
             <th>Nom</th>
+            <th>Type</th>
             <th>Wilaya</th>
             <th style="text-align: center;">Options</th>
         </tr>    
         @foreach ($etablissements as $etablissement)
     <tr>
         <td>{{$etablissement->name}}</td>
+        <td>{{$etablissement->type}}</td>
         <td>{{$etablissement->wilaya}}</td>
         <td>
             <div class="d-flex justify-content-center align-items-center">

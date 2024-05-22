@@ -81,18 +81,30 @@
                     <h1>Liste des domaines</h1>
                 </div>
             </div>
-            <form  method="POST" action="{{ route('domaines.searchDomaine')}}">
+            <form method="POST" action="{{ route('domaines.searchDomaine') }}">
                 @csrf
-            <div class="col d-flex">
-                <div style="width: 350px">
-                    <input name="name" placeholder="Domaine" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-sm btn-warning mx-1">
-                        <i class="bi bi-search"></i> Rechercher
+                <div class="col d-flex">
+                    <select style="width: 210px" id="type_recherche" class="form-select form-select-sm flex-grow-1 me-2" aria-label=".form-select-sm example" required onchange="rechercheDomaine()">
+                        <option selected disabled value="">-- Choisissez une option --</option>
+                        <option value="structure">Par structure IAP</option>
+                        <option value="nameee">Par nom</option>             
+                    </select> 
+                    <div style="width: 450px">
+                        <select disabled id="decoy" class="form-select form-select-sm" aria-label=".form-select-sm example" required></select>
+                        <select hidden disabled id="structure" name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                            <option selected value="">-- Choisissez une structure IAP --</option>
+                            @foreach ($structuresIAPs as $structuresIAP)
+                                <option value="{{ $structuresIAP->id }}">
+                                    {{ $structuresIAP->name }} 
+                                </option>
+                            @endforeach
+                        </select>          
+                        <input hidden disabled name="name" id="nameee" placeholder="Domaine" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
+                    </div>
+                    <button type="submit" name="recherche" class="btn btn-sm btn-warning mx-1">
+                        <i class="bi bi-search"></i> 
                     </button>
-                </div>         
-            </div>
+                </div>
             </form>
         </div>
     

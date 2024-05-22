@@ -15,6 +15,7 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{{route('structuresIAP.index')}}">Structures IAP <i class="bi bi-houses-fill"></i></a></li>
+              <li><a class="dropdown-item" href="{{route('signataires.index')}}">Signataires <i class="bi bi-vector-pen"></i></a></li>
               <li><a class="dropdown-item" href="{{route('structuresAffectation.index')}}">Structures D'affectation <i class="bi bi-building-fill"></i></a></li>
               <li><a class="dropdown-item" href="{{route('encadrants.index')}}">Encadrants <i class="bi bi-person-lines-fill"></i></a></li>
               <li><a class="dropdown-item" href="{{route('domaines.index')}}">Domaines <i class="bi bi-journals"></i></a></li>

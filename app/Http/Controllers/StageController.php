@@ -54,7 +54,7 @@ class StageController extends Controller
             ->orderBy('stages.encadrant_id')
             ->orderBy('stages.stage_type')
             ->orderBy('stages.start_date')
-            ->with('stagiaires') // Eager load the stagiaires relationship
+            ->with('stagiaires')
             ->select('stages.*')
             ->paginate(5);
         return view('admin.stages', compact('stages', 'domaines', 'specialites', 'encadrants', 'etablissements', 'structuresAffectations', 'themes'));

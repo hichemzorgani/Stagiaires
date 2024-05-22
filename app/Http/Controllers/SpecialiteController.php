@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Domaine;
 use App\Models\Specialite;
+use App\Models\StructuresIAP;
 use Illuminate\Http\Request;
 
 class SpecialiteController extends Controller
@@ -13,6 +14,7 @@ class SpecialiteController extends Controller
      */
     public function index()
     {
+        $structuresIAPs = StructuresIAP::all();
         $domaines = Domaine::orderBy('structuresIAP_id')->orderBy('name')->get();
         $specialites = Specialite::join('domaines', 'specialites.domaine_id', '=', 'domaines.id')
             ->orderBy('domaines.structuresIAP_id')
@@ -20,7 +22,7 @@ class SpecialiteController extends Controller
             ->orderBy('specialites.name')
             ->select('specialites.*')
             ->paginate(10);
-        return view('superadmin.specialites', compact('domaines', 'specialites'));
+        return view('superadmin.specialites', compact('domaines', 'specialites', 'structuresIAPs'));
     }
 
     /**
@@ -63,6 +65,7 @@ class SpecialiteController extends Controller
      */
     public function edit(Specialite $specialite)
     {
+        $structuresIAPs = StructuresIAP::all();
         $domaines = Domaine::orderBy('structuresIAP_id')->orderBy('name')->get();
         $specialites = Specialite::join('domaines', 'specialites.domaine_id', '=', 'domaines.id')
             ->orderBy('domaines.structuresIAP_id')
@@ -70,7 +73,7 @@ class SpecialiteController extends Controller
             ->orderBy('specialites.name')
             ->select('specialites.*')
             ->paginate(10);
-        return view('superadmin.specialites', compact('domaines', 'specialites', 'specialite'));
+        return view('superadmin.specialites', compact('domaines', 'specialites', 'specialite', 'structuresIAPs'));
     }
 
     /**

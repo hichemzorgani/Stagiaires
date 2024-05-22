@@ -12,5 +12,6 @@ class Etablissement extends Model
     protected $fillable = [
         'name',
         'wilaya',
+        'type',
     ];
 }

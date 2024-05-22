@@ -13,22 +13,23 @@
               Administration <i class="bi bi-gear-fill"></i>
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="">Structures IAP <i class="bi bi-houses-fill"></i></a></li>
-              <li><a class="dropdown-item" href="">Structures D'affectation <i class="bi bi-building-fill"></i></a></li>
-              <li><a class="dropdown-item" href="">Encadrants <i class="bi bi-person-lines-fill"></i></a></li>
+              <li><a class="dropdown-item" href="{{route('structuresIAP')}}">Structures IAP <i class="bi bi-houses-fill"></i></a></li>
+              <li><a class="dropdown-item" href="{{route('signataires')}}">Signataires <i class="bi bi-vector-pen"></i></a></li>
+              <li><a class="dropdown-item" href="{{route('structuresAffectation')}}">Structures D'affectation <i class="bi bi-building-fill"></i></a></li>
+              <li><a class="dropdown-item" href="{{route('encadrants')}}">Encadrants <i class="bi bi-person-lines-fill"></i></a></li>
               <li><a class="dropdown-item" href="{{route('domaines')}}">Domaines <i class="bi bi-journals"></i></a></li>
-              <li><a class="dropdown-item" href="">Spécialités <i class="bi bi-bookmarks-fill"></i></a></li>
+              <li><a class="dropdown-item" href="{{route('specialites')}}">Spécialités <i class="bi bi-bookmarks-fill"></i></a></li>
             </ul>
           </li>
-          <a class="nav-link" href="">Établissements <i class="bi bi-buildings"></i></a>
+          <a class="nav-link" href="{{route('etablissements')}}">Établissements <i class="bi bi-buildings"></i></a>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Stages
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="">Liste des stages</a></li>
-              <li><a class="dropdown-item" href="">Rechercher un stage</a></li>
-              <li><a class="dropdown-item" href="">Liste des stagiaires</a></li>
+              <li><a class="dropdown-item" href="{{route('stages')}}">Liste des stages</a></li>
+              <li><a class="dropdown-item" href="{{route('rechercheStage')}}">Rechercher un stage</a></li>
+              <li><a class="dropdown-item" href="{{route('stagiaires')}}">Liste des stagiaires</a></li>
             </ul>
           </li>
 

@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-6">
                     <p class="h6">Structure IAP</p>
-                    <select name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <select id="structuresIAP_id" name="structuresIAP_id" required class="form-select form-select-sm" aria-label=".form-select-sm example" onchange="selectDirection()">
                         @foreach ($structuresIAPs as $structuresIAP)
                             <option value="{{ $structuresIAP->id }}" {{ $structuresAffectation->structuresIAP_id == $structuresIAP->id ? 'selected' : '' }}>{{ $structuresIAP->name }}</option>
                         @endforeach
@@ -20,7 +20,7 @@
                     <div class="row" style="margin-top: 16px">
                         <div class="col-6">
                             <p class="h6">Type</p>
-                            <select name="type" id="type" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <select name="type" id="type" required class="form-select form-select-sm" aria-label=".form-select-sm example">
                                 <option value="Direction" {{ $structuresAffectation->type == 'Direction' ? 'selected' : '' }}>Direction</option>
                                 <option value="Sous-direction" {{ $structuresAffectation->type == 'Sous-direction' ? 'selected' : '' }}>Sous-direction</option>
                                 <option value="Departement" {{ $structuresAffectation->type == 'Departement' ? 'selected' : '' }}>Département</option>
@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-6">
                             <p class="h6">Direction / Sous-direction</p>
-                            <select name="parent_id" id="parent_id" class="form-select form-select-sm" aria-label=".form-select-sm example" {{ $structuresAffectation->type != 'Departement' ? 'disabled' : '' }}>
+                            <select name="parent_id" id="parent_id" required class="form-select form-select-sm" aria-label=".form-select-sm example" {{ $structuresAffectation->type != 'Departement' ? 'disabled' : '' }}>
                                 @foreach ($directions as $direction)
                                     <option value="{{$direction->id}}" {{ $structuresAffectation->parent_id == $direction->id ? 'selected' : '' }}>
                                         {{$direction->name}} ({{$direction->structuresIAP->name}})
@@ -85,7 +85,8 @@
             <div class="row">
                 <div class="col-6">
                     <p class="h6">Structure IAP</p>
-                    <select name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <select id="structuresIAP_id" name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required onchange="selectDirection()">
+                        <option selected disabled value="">-- Choisissez une structure IAP --</option>
                         @foreach ($structuresIAPs as $structuresIAP)
                         <option value="{{ $structuresIAP->id }}">{{ $structuresIAP->name }}</option>
                         @endforeach
@@ -93,7 +94,7 @@
                     <div class="row" style="margin-top: 16px">
                         <div class="col-6">
                             <p class="h6">Type</p>
-                            <select name="type" id="type" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <select name="type" id="type" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
                                 <option value="Direction">Direction</option>
                                 <option value="Sous-direction">Sous-direction</option>
                                 <option value="Departement">Département</option>
@@ -101,7 +102,8 @@
                         </div>
                         <div class="col-6">
                             <p class="h6">Direction / Sous-direction</p>
-                            <select name="parent_id" id="parent_id" class="form-select form-select-sm" aria-label=".form-select-sm example" disabled>
+                            <select name="parent_id" id="parent_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required disabled>
+                                <option selected disabled value="">-- Direction / Sous-direction --</option>
                                 @foreach ($directions as $direction)
                                     <option value="{{$direction->id}}">{{$direction->name}} ({{$direction->structuresIAP->name}})</option>
                                 @endforeach
@@ -153,20 +155,39 @@
         <div class="col">
             <div class="title">
                 <h1>Liste des structures d'affectation</h1>
-              </div>
-        </div>
-        <form  method="POST" action="{{ route('structuresAffectation.searchAffectation')}}">
-            @csrf
-        <div class="col d-flex">
-            <div style="width: 350px">
-                <input name="name" placeholder="Structure d'affectation" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
             </div>
-            <div>
-                <button type="submit" class="btn btn-sm btn-warning mx-1">
-                    <i class="bi bi-search"></i> Rechercher
-                </button>
-            </div>         
         </div>
+        <form method="POST" action="{{ route('structuresAffectation.searchAffectation') }}">
+            @csrf
+            <div class="col d-flex">
+                <select style="width: 210px" id="type_recherche" class="form-select form-select-sm flex-grow-1 me-2" aria-label=".form-select-sm example" required onchange="rechercheAffectation()">
+                    <option selected disabled value="">-- Choisissez une option --</option>
+                    <option value="structureIAP">Par structure IAP</option>
+                    <option value="typeee">Par type</option>
+                    <option value="nameee">Par nom</option>             
+                </select> 
+                <div style="width: 450px">
+                    <select disabled id="decoy"  class="form-select form-select-sm" aria-label=".form-select-sm example" required></select>
+                    <select hidden disabled id="structureIAP" name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                        <option selected value="">-- Choisissez une structure IAP --</option>
+                        @foreach ($structuresIAPs as $structuresIAP)
+                            <option value="{{ $structuresIAP->id }}">
+                                {{ $structuresIAP->name }} 
+                            </option>
+                        @endforeach
+                    </select>      
+                    <select hidden disabled id="typeee" name="type" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                        <option selected value="">-- Choisissez le type --</option>
+                        <option value="Direction">Direction</option>
+                        <option value="Sous-direction">Sous-direction</option>
+                        <option value="Departement">Département</option>
+                    </select>    
+                    <input hidden disabled id="nameee" name="name" placeholder="Structure d'affectation" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
+                </div>
+                <button type="submit" name="recherche" class="btn btn-sm btn-warning mx-1">
+                    <i class="bi bi-search"></i> 
+                </button>
+            </div>
         </form>
     </div>
   
@@ -186,7 +207,7 @@
         <tr>
         <td>{{$structuresAffectation->name}}</td>
         <td>{{$structuresAffectation->type}}</td>
-        <th>{{$structuresAffectation->parent->name ?? ''}}</th>
+        <td>{{$structuresAffectation->parent->name ?? ''}}</td>
         <td>{{$structuresAffectation->structuresIAP->name}}</td>
         <td>{{$structuresAffectation->quota_pfe}}</td>
         <td>{{$structuresAffectation->quota_im}}</td>
@@ -237,3 +258,20 @@
     </div>
     @endif
 </x-master>
+
+<script>
+    function selectDirection(){
+        var structuresIAP_id = document.getElementById('structuresIAP_id').value;
+        var direction = @json($directions);
+        var select = document.getElementById('parent_id');
+        select.innerHTML = '<option selected disabled value="">-- Direction / Sous-direction --</option>';
+        direction.forEach(direction => {
+            if(direction.structuresIAP_id == structuresIAP_id){
+                var option = document.createElement('option');
+                option.value = direction.id;
+                option.text = direction.name;
+                select.appendChild(option);
+            }
+        });
+    }
+    </script>

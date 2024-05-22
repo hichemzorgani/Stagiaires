@@ -9,17 +9,27 @@
         @csrf
         @method('PUT')
         <div class="row d-flex justify-content-center align-items-center">
-            <div class="col-5">
-                <p class="h6">Domaine</p>
-                <select name="domaine_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
-                    @foreach ($domaines as $domaine)
-                        <option value="{{ $domaine->id }}" {{ old('domaine_id', $specialite->domaine_id) == $domaine->id ? 'selected' : '' }}>
-                            {{ $domaine->name }} ({{$domaine->structuresIAP->name}})
+            <div class="col-3">
+                <p class="h6">Structure IAP</p>
+                <select id="structuresIAP_id" name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required onchange="selectDomaine()">
+                    @foreach ($structuresIAPs as $structuresIAP)
+                        <option value="{{ $structuresIAP->id }}" {{ old('structuresIAP_id', $specialite->domaine->structuresIAP_id) == $structuresIAP->id ? 'selected' : '' }}>
+                            {{ $structuresIAP->name }}
                         </option>
                     @endforeach
                 </select>
             </div>
-            <div class="col-5">
+            <div class="col-3">
+                <p class="h6">Domaine</p>
+                <select id="domaine_id" name="domaine_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                    @foreach ($domaines as $domaine)
+                        <option value="{{ $domaine->id }}" {{ old('domaine_id', $specialite->domaine_id) == $domaine->id ? 'selected' : '' }}>
+                            {{ $domaine->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-4">
                 <p class="h6">Nom</p>
                 <input name="name" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required value="{{ old('name', $specialite->name) }}">
                 @error('name')
@@ -44,17 +54,30 @@
         <form action="{{ route('specialites.store') }}" method="POST">
             @csrf
             <div class="row d-flex justify-content-center align-items-center">
-        <div class="col-5">
+
+        <div class="col-3">
+            <p class="h6">Structure IAP</p>
+            <select id="structuresIAP_id" name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required  onchange="selectDomaine()">
+                <option selected disabled value="">-- Choisissez une structure IAP --</option>
+                @foreach ($structuresIAPs as $structuresIAP)
+                    <option value="{{ $structuresIAP->id }}" {{ old('structuresIAP_id') == $structuresIAP->id ? 'selected' : '' }}>
+                        {{ $structuresIAP->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>        
+        <div class="col-3">
             <p class="h6">Domaine</p>
-            <select name="domaine_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+            <select id="domaine_id" name="domaine_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                <option selected disabled value="">-- Choisissez un domaine --</option>
                 @foreach ($domaines as $domaine)
                     <option value="{{ $domaine->id }}" {{ old('domaine_id') == $domaine->id ? 'selected' : '' }}>
-                        {{ $domaine->name }} ({{$domaine->structuresIAP->name}})
+                        {{ $domaine->name }} 
                     </option>
                 @endforeach           
             </select>            
         </div>
-        <div class="col-5">
+        <div class="col-4">
             <p class="h6">Nom</p>
             <input name="name" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required value="{{old('name')}}">
             @error('name')
@@ -80,22 +103,41 @@
                     <h1>Liste des spécialités</h1>
                 </div>
             </div>
-            <form  method="POST" action="{{ route('specialites.searchSpecialite')}}">
+            <form method="POST" action="{{ route('specialites.searchSpecialite') }}">
                 @csrf
-            <div class="col d-flex">
-                <div style="width: 350px">
-                    <input name="name" placeholder="Spécialité" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-sm btn-warning mx-1">
-                        <i class="bi bi-search"></i> Rechercher
+                <div class="col d-flex">
+                    <select style="width: 210px" id="type_recherche" class="form-select form-select-sm flex-grow-1 me-2" aria-label=".form-select-sm example" required onchange="rechercheSpecialite()">
+                        <option selected disabled value="">-- Choisissez une option --</option>
+                        <option value="structure">Par structure IAP</option>
+                        <option value="domaine">Par domaine</option>
+                        <option value="nameee">Par nom</option>             
+                    </select> 
+                    <div style="width: 450px">
+                        <select disabled id="decoy" class="form-select form-select-sm" aria-label=".form-select-sm example" required></select>
+                        <select hidden disabled id="structure" name="structuresIAP_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                            <option selected value="">-- Choisissez une structure IAP --</option>
+                            @foreach ($structuresIAPs as $structuresIAP)
+                                <option value="{{ $structuresIAP->id }}">
+                                    {{ $structuresIAP->name }} 
+                                </option>
+                            @endforeach
+                        </select> 
+                        <select hidden disabled id="domaine" name="domaine_id" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                            <option selected value="">-- Choisissez un domaine --</option>
+                            @foreach ($domaines as $domaine)
+                                <option value="{{ $domaine->id }}">
+                                    {{ $domaine->name }} ({{ $domaine->structuresIAP->name }})
+                                </option>
+                            @endforeach        
+                        <input hidden disabled name="name" id="nameee" placeholder="Spécialité" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" autocomplete="off" required>
+                    </div>
+                    <button type="submit" name="recherche" class="btn btn-sm btn-warning mx-1">
+                        <i class="bi bi-search"></i> 
                     </button>
-                </div>         
-            </div>
+                </div>
             </form>
         </div>
-    <p class="h4"></p>
-    
+
     <div class="table-responsive">
     <table class="table table-sm table-dark table-bordered table-striped table-hover">
 
@@ -163,3 +205,20 @@
     </div>
     @endif
 </x-master>
+
+<script>
+    function selectDomaine(){
+        var structuresIAP_id = document.getElementById('structuresIAP_id').value;
+        var domaines = @json($domaines);
+        var select = document.getElementById('domaine_id');
+        select.innerHTML = '<option selected disabled value="">-- Choisissez un domaine --</option>';
+        domaines.forEach(domaine => {
+            if(domaine.structuresIAP_id == structuresIAP_id){
+                var option = document.createElement('option');
+                option.value = domaine.id;
+                option.text = domaine.name;
+                select.appendChild(option);
+            }
+        });
+    }
+</script>
