@@ -161,18 +161,104 @@ class StageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Stage $stage)
+    public function edit($id)
     {
-        //
-    }
+    // Fetch the specific stage by its ID
+    $domaines = Domaine::where('structuresIAP_id', Auth::user()->structuresIAP_id)->get();
+    $specialites = Specialite::join('domaines', 'specialites.domaine_id', '=', 'domaines.id')
+    ->where('domaines.structuresIAP_id', Auth::user()->structuresIAP_id)
+    ->orderBy('domaines.structuresIAP_id')
+    ->orderBy('domaines.name')
+    ->orderBy('specialites.name')
+    ->select('specialites.*')
+    ->get();
+    $stage = Stage::findOrFail($id);
+    $stagiaires = $stage->stagiaires;
+    // Fetch the encadrants where the structure is related to the authenticated user's structure
+    $encadrants = Encadrant::whereHas('structureAffectation.structuresIAP', function ($query) {
+        $query->where('id', Auth::user()->structuresIAP_id);
+    })->get();
+    
+    // Fetch all établissements ordered by name
+    $etablissements = Etablissement::orderBy('name')->get();
+    
+    // Fetch structures d'affectation related to the authenticated user's structure
+    $structuresAffectations = StructuresAffectation::where('structuresIAP_id', '=', Auth::user()->structuresIAP_id)->get();
+    
+    // Return the view with the necessary data
+    return view('admin.edit', compact('specialites','domaines','stage','stagiaires', 'structuresAffectations', 'etablissements', 'encadrants'));
+     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Stage $stage)
-    {
-        //
+{
+
+    DB::beginTransaction();
+
+    try {
+        // Valider les données du stage
+        $validatedDataStage = $request->validate([
+            'stage_type' => 'required|in:pfe,immersion',
+            'theme' => 'required|string',
+            'specialite_id' => 'required|exists:specialites,id',
+            'start_date' => 'required|date',
+            'reception_days' => 'required|string',
+            'end_date' => 'required|date|after:start_date',
+            'level' => 'required|in:Master,Licence,Doctorat,Ingenieur,TS',
+            'stagiaire_count' => 'required|in:Monome,Binome,Trinome,Quadrinome',
+            'encadrant_id' => 'required|exists:encadrants,id',
+            'etablissement_id' => 'required|exists:etablissements,id',
+            'structuresAffectation_id' => 'required|exists:structures_affectations,id',
+        ]);
+
+        // Mettre à jour les données du stage
+        $stage->update($validatedDataStage);
+
+        // Déterminer le nombre de stagiaires
+        $count = match ($request->input('stagiaire_count')) {
+            'Monome' => 1,
+            'Binome' => 2,
+            'Trinome' => 3,
+            'Quadrinome' => 4,
+        };
+
+        // Mettre à jour les stagiaires existants et supprimer les stagiaires en excès
+        foreach ($stage->stagiaires as $key => $stagiaire) {
+            $index = $key + 1;
+            if ($key < $count) {
+                $request->validate([
+                    "last_name{$index}" => 'required|string',
+                    "first_name{$index}" => 'required|string',
+                    "date_of_birth{$index}" => 'required|date',
+                    "place_of_birth{$index}" => 'required|string',
+                    "phone_number{$index}" => 'required|string',
+                    "email{$index}" => 'required|email',
+                    "blood_group{$index}" => 'required|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
+                ]);
+
+                $stagiaire->update([
+                    'last_name' => $request->input("last_name{$index}"),
+                    'first_name' => $request->input("first_name{$index}"),
+                    'date_of_birth' => $request->input("date_of_birth{$index}"),
+                    'place_of_birth' => $request->input("place_of_birth{$index}"),
+                    'phone_number' => $request->input("phone_number{$index}"),
+                    'email' => $request->input("email{$index}"),
+                    'blood_group' => $request->input("blood_group{$index}"),
+                ]);
+            }
+        }
+
+        DB::commit();
+
+        return redirect()->route('stages.index')->with('success', 'Stage mis à jour.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()->back()->with('danger', 'Une Erreur veuillew remplir les champs');
     }
+}
 
     /**
      * Remove the specified resource from storage.

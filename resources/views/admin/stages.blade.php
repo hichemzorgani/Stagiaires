@@ -263,7 +263,24 @@
                         @endif 
                     @endforeach                     
                 </tr>  
-                
+                <tr>
+                    <th class='table-dark'>Modifier</th>
+                    @foreach ($stages as $key => $stage)
+                        @if ($key % 2 == 0)
+                            <td class="table-light" style="text-align: center;">
+                                <a href="{{ route('stages.edit', $stage->id) }}" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-pencil-fill"></i> Modifier
+                                </a>
+                            </td>                                            
+                        @else
+                            <td class="table-warning" style="text-align: center;">
+                                <a href="{{ route('stages.edit', $stage->id) }}" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-pencil-fill"></i> Modifier
+                                </a>
+                            </td>   
+                        @endif 
+                    @endforeach              
+                </tr> 
                 
             </table>
         </div>        
